@@ -141,6 +141,7 @@
     "lightTheme": "Light",
     "darkTheme": "Dark",
     "oledTheme": "OLED",
+    "liquidGlassTheme": "Liquid Glass",
     "libraryDensity": "Library Density",
     "displayScale": "Display Scale",
     "compact": "Compact",

@@ -6,6 +6,7 @@ import '../focus/focusable_text_field.dart';
 import '../focus/input_mode_tracker.dart';
 import '../i18n/strings.g.dart';
 import '../mixins/controller_disposer_mixin.dart';
+import '../theme/liquid_glass.dart';
 import '../widgets/app_icon.dart';
 import '../widgets/dialog_action_button.dart';
 import '../widgets/focusable_list_tile.dart';
@@ -31,7 +32,8 @@ Future<T?> showScopedDialog<T>({
   final owner = ModalRoute.of(context);
   final route = DialogRoute<T>(
     context: context,
-    builder: builder,
+    // Liquid Glass defocuses the page behind the dialog; a no-op otherwise.
+    builder: (dialogContext) => LiquidGlassModalBackdrop(child: builder(dialogContext)),
     themes: InheritedTheme.capture(from: context, to: navigator.context),
     barrierColor: DialogTheme.of(context).barrierColor ?? Theme.of(context).dialogTheme.barrierColor ?? Colors.black54,
     barrierDismissible: barrierDismissible,

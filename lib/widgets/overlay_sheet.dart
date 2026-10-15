@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import '../focus/dpad_navigator.dart';
 import '../focus/input_mode_tracker.dart';
 import '../focus/key_event_utils.dart';
+import '../theme/liquid_glass.dart';
 import '../utils/platform_detector.dart';
 
 /// Entry in the sheet page stack.
@@ -164,7 +165,10 @@ class OverlaySheetController {
         // here so the last row clears the home indicator / gesture nav bar.
         builder: (context) => SafeArea(top: false, child: builder(context)),
         constraints: effectiveConstraints,
-        backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.surface,
+        backgroundColor:
+            backgroundColor ??
+            Theme.of(context).bottomSheetTheme.modalBackgroundColor ??
+            Theme.of(context).colorScheme.surface,
         barrierColor: Colors.black54,
         isDismissible: barrierDismissible,
         isScrollControlled: isScrollControlled,
@@ -699,9 +703,8 @@ class _OverlaySheetHostState extends State<OverlaySheetHost> with SingleTickerPr
     // hit testing never depends on the sheet child's just-invalidated layout.
     final slideDirection = isTop ? -1.0 : 1.0;
     final slideDistance = size.height;
-    final borderRadius = isTop
-        ? const BorderRadius.vertical(bottom: Radius.circular(16))
-        : const BorderRadius.vertical(top: Radius.circular(16));
+    final sheetRadius = Radius.circular(isLiquidGlass(context) ? 32 : 16);
+    final borderRadius = isTop ? BorderRadius.vertical(bottom: sheetRadius) : BorderRadius.vertical(top: sheetRadius);
 
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -796,28 +799,32 @@ class _OverlaySheetHostState extends State<OverlaySheetHost> with SingleTickerPr
                 right: true,
                 top: false,
                 bottom: false,
-                child: Material(
-                  key: _sheetKey,
-                  color: _explicitBackgroundColor ?? colorScheme.surface,
+                child: _glassSheet(
+                  context,
                   borderRadius: borderRadius,
-                  clipBehavior: Clip.antiAlias,
-                  child: SafeArea(
-                    top: isTop,
-                    bottom: !isTop,
-                    left: false,
-                    right: false,
-                    // Content is sized by the sheet body, so pushing a nested
-                    // page or resolving async content changes the sheet's
-                    // height. Ease the box between those heights instead of
-                    // snapping. The child is laid out at its final size and
-                    // pinned to the anchored edge throughout, so it is revealed
-                    // rather than stretched.
-                    child: AnimatedSize(
-                      key: ValueKey(_sheetSession),
-                      duration: const Duration(milliseconds: 180),
-                      curve: Curves.easeOutCubic,
-                      alignment: isTop ? Alignment.topCenter : Alignment.bottomCenter,
-                      child: ConstrainedBox(constraints: effectiveConstraints, child: sheetContent),
+                  child: Material(
+                    key: _sheetKey,
+                    color: _usesGlass(context) ? Colors.transparent : (_explicitBackgroundColor ?? colorScheme.surface),
+                    borderRadius: borderRadius,
+                    clipBehavior: Clip.antiAlias,
+                    child: SafeArea(
+                      top: isTop,
+                      bottom: !isTop,
+                      left: false,
+                      right: false,
+                      // Content is sized by the sheet body, so pushing a nested
+                      // page or resolving async content changes the sheet's
+                      // height. Ease the box between those heights instead of
+                      // snapping. The child is laid out at its final size and
+                      // pinned to the anchored edge throughout, so it is revealed
+                      // rather than stretched.
+                      child: AnimatedSize(
+                        key: ValueKey(_sheetSession),
+                        duration: const Duration(milliseconds: 180),
+                        curve: Curves.easeOutCubic,
+                        alignment: isTop ? Alignment.topCenter : Alignment.bottomCenter,
+                        child: ConstrainedBox(constraints: effectiveConstraints, child: sheetContent),
+                      ),
                     ),
                   ),
                 ),
@@ -859,6 +866,18 @@ class _OverlaySheetHostState extends State<OverlaySheetHost> with SingleTickerPr
     }
 
     return sheet;
+  }
+
+  /// Liquid Glass sheets are frosted unless the caller asked for a colour.
+  bool _usesGlass(BuildContext context) => _explicitBackgroundColor == null && isLiquidGlass(context);
+
+  Widget _glassSheet(BuildContext context, {required BorderRadiusGeometry borderRadius, required Widget child}) {
+    if (!_usesGlass(context)) return child;
+    return LiquidGlass(
+      borderRadius: borderRadius,
+      tint: Theme.of(context).bottomSheetTheme.backgroundColor,
+      child: child,
+    );
   }
 }
 

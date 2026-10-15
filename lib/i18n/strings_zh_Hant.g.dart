@@ -249,6 +249,7 @@ class _Translations$settings$zh_Hant extends Translations$settings$zh {
 	@override String get lightTheme => '淺色';
 	@override String get darkTheme => '深色';
 	@override String get oledTheme => 'OLED 純黑';
+	@override String get liquidGlassTheme => 'Liquid Glass';
 	@override String get libraryDensity => '媒體庫版面配置密度';
 	@override String get displayScale => '介面縮放';
 	@override String get compact => '緊湊';
@@ -3156,6 +3157,7 @@ extension on TranslationsZhHant {
 			'settings.lightTheme' => '淺色',
 			'settings.darkTheme' => '深色',
 			'settings.oledTheme' => 'OLED 純黑',
+			'settings.liquidGlassTheme' => 'Liquid Glass',
 			'settings.libraryDensity' => '媒體庫版面配置密度',
 			'settings.displayScale' => '介面縮放',
 			'settings.compact' => '緊湊',
@@ -3540,9 +3542,9 @@ extension on TranslationsZhHant {
 			'fileInfo.scalingMatrix' => '自訂縮放矩陣',
 			'fileInfo.streamIdentifier' => '串流識別碼',
 			'fileInfo.streamIndex' => '串流索引',
-			'fileInfo.streamId' => '串流 ID',
 			_ => null,
 		} ?? switch (path) {
+			'fileInfo.streamId' => '串流 ID',
 			'fileInfo.language' => '語言',
 			'fileInfo.languageCode' => '語言代碼',
 			'fileInfo.streamTitle' => '軌道名稱',
@@ -4054,9 +4056,9 @@ extension on TranslationsZhHant {
 			'libraries.scanLibrary' => '掃描媒體庫',
 			'libraries.analyze' => '分析',
 			'libraries.analyzeLibrary' => '分析媒體庫',
-			'libraries.refreshMetadata' => '重新整理中繼資料',
 			_ => null,
 		} ?? switch (path) {
+			'libraries.refreshMetadata' => '重新整理中繼資料',
 			'libraries.emptyTrash' => '清空垃圾桶',
 			'libraries.emptyingTrash' => ({required Object title}) => '正在清空「${title}」的垃圾桶…',
 			'libraries.trashEmptied' => ({required Object title}) => '已清空「${title}」的垃圾桶',
@@ -4568,9 +4570,9 @@ extension on TranslationsZhHant {
 			'watchTogether.waitingForParticipants' => '正在等待其他人載入…',
 			'watchTogether.waitingForName' => ({required Object name}) => '正在等待 ${name}…',
 			'watchTogether.recentRooms' => '最近的房間',
-			'watchTogether.renameRoom' => '重新命名房間',
 			_ => null,
 		} ?? switch (path) {
+			'watchTogether.renameRoom' => '重新命名房間',
 			'watchTogether.removeRoom' => '移除',
 			'watchTogether.guestSwitchUnavailable' => '無法切換 — 伺服器無法進行同步',
 			'watchTogether.guestSwitchFailed' => '無法切換 — 在此伺服器上找不到內容',
@@ -5082,9 +5084,9 @@ extension on TranslationsZhHant {
 			'addServer.connectToMediaBrowserCardSubtitle' => '輸入您的伺服器 URL、使用者名稱與密碼。',
 			'addServer.connectToMediaBrowserCardSubtitleScoped' => ({required Object product, required Object name}) => '登入您的 ${product} 伺服器。將綁定至 ${name}。',
 			'addServer.borrowFromAnotherProfile' => '從另一個使用者設定檔共用',
-			'addServer.borrowFromAnotherProfileSubtitle' => '重複使用另一個使用者設定檔的連線資訊。受 PIN 碼保護的使用者設定檔需輸入 PIN 碼。',
 			_ => null,
 		} ?? switch (path) {
+			'addServer.borrowFromAnotherProfileSubtitle' => '重複使用另一個使用者設定檔的連線資訊。受 PIN 碼保護的使用者設定檔需輸入 PIN 碼。',
 			'addServer.invalidCredentials' => '使用者名稱或密碼無效',
 			'addServer.authResponseNotJson' => '驗證回應不是有效的 JSON',
 			'addServer.authResponseIncomplete' => '伺服器傳回的登入回應不完整',

@@ -248,6 +248,7 @@ class _Translations$settings$ja extends Translations$settings$en {
 	@override String get lightTheme => 'ライト';
 	@override String get darkTheme => 'ダーク';
 	@override String get oledTheme => 'OLED';
+	@override String get liquidGlassTheme => 'Liquid Glass';
 	@override String get libraryDensity => 'ライブラリの密度';
 	@override String get displayScale => '表示スケール';
 	@override String get compact => 'コンパクト';
@@ -3155,6 +3156,7 @@ extension on TranslationsJa {
 			'settings.lightTheme' => 'ライト',
 			'settings.darkTheme' => 'ダーク',
 			'settings.oledTheme' => 'OLED',
+			'settings.liquidGlassTheme' => 'Liquid Glass',
 			'settings.libraryDensity' => 'ライブラリの密度',
 			'settings.displayScale' => '表示スケール',
 			'settings.compact' => 'コンパクト',
@@ -3539,9 +3541,9 @@ extension on TranslationsJa {
 			'fileInfo.scalingMatrix' => 'カスタムスケーリングマトリックス',
 			'fileInfo.streamIdentifier' => 'ストリーム識別子',
 			'fileInfo.streamIndex' => 'ストリームインデックス',
-			'fileInfo.streamId' => 'ストリーム ID',
 			_ => null,
 		} ?? switch (path) {
+			'fileInfo.streamId' => 'ストリーム ID',
 			'fileInfo.language' => '言語',
 			'fileInfo.languageCode' => '言語コード',
 			'fileInfo.streamTitle' => 'トラックタイトル',
@@ -4053,9 +4055,9 @@ extension on TranslationsJa {
 			'libraries.scanLibrary' => 'ライブラリをスキャン',
 			'libraries.analyze' => '解析',
 			'libraries.analyzeLibrary' => 'ライブラリを解析',
-			'libraries.refreshMetadata' => 'メタデータを更新',
 			_ => null,
 		} ?? switch (path) {
+			'libraries.refreshMetadata' => 'メタデータを更新',
 			'libraries.emptyTrash' => 'ゴミ箱を空にする',
 			'libraries.emptyingTrash' => ({required Object title}) => '「${title}」のゴミ箱を空にしています…',
 			'libraries.trashEmptied' => ({required Object title}) => '「${title}」のゴミ箱を空にしました',
@@ -4567,9 +4569,9 @@ extension on TranslationsJa {
 			'watchTogether.waitingForParticipants' => '他の参加者の読み込みを待っています…',
 			'watchTogether.waitingForName' => ({required Object name}) => '${name}を待っています…',
 			'watchTogether.recentRooms' => '最近のルーム',
-			'watchTogether.renameRoom' => 'ルーム名を変更',
 			_ => null,
 		} ?? switch (path) {
+			'watchTogether.renameRoom' => 'ルーム名を変更',
 			'watchTogether.removeRoom' => '削除',
 			'watchTogether.guestSwitchUnavailable' => '切り替えられません — 同期に必要なサーバーを利用できません',
 			'watchTogether.guestSwitchFailed' => '切り替えられません — このサーバーにコンテンツが見つかりません',
@@ -5081,9 +5083,9 @@ extension on TranslationsJa {
 			'addServer.connectToMediaBrowserCardSubtitle' => 'サーバーのURL、ユーザー名、パスワードを入力してください。',
 			'addServer.connectToMediaBrowserCardSubtitleScoped' => ({required Object product, required Object name}) => '${product}サーバーにサインインします。「${name}」に紐付けられます。',
 			'addServer.borrowFromAnotherProfile' => '別のプロフィールの接続を利用',
-			'addServer.borrowFromAnotherProfileSubtitle' => '別のプロフィールの接続を再利用します。PINで保護されたプロフィールにはPINが必要です。',
 			_ => null,
 		} ?? switch (path) {
+			'addServer.borrowFromAnotherProfileSubtitle' => '別のプロフィールの接続を再利用します。PINで保護されたプロフィールにはPINが必要です。',
 			'addServer.invalidCredentials' => 'ユーザー名またはパスワードが正しくありません',
 			'addServer.authResponseNotJson' => '認証レスポンスが有効なJSONではありません',
 			'addServer.authResponseIncomplete' => 'サーバーからのサインイン応答が不完全です',

@@ -3,23 +3,51 @@ import 'package:flutter/material.dart';
 import 'gapped_track_shape.dart';
 import 'mono_tokens.dart';
 
-final Map<({bool dark, bool oled, TargetPlatform platform}), ThemeData> _monoThemeCache = {};
+final Map<({bool dark, bool oled, bool glass, TargetPlatform platform}), ThemeData> _monoThemeCache = {};
 
-ThemeData monoTheme({required bool dark, bool oled = false}) {
+/// The app theme for a palette. [glass] selects the Liquid Glass palette, a
+/// dark Apple TV–style variant whose floating chrome renders as blurred glass
+/// (see `LiquidGlass`); it implies [dark] and takes precedence over [oled].
+ThemeData monoTheme({required bool dark, bool oled = false, bool glass = false}) {
   // ThemeData derives several defaults from defaultTargetPlatform.
-  final key = (dark: dark || oled, oled: oled, platform: defaultTargetPlatform);
+  final key = (dark: dark || oled || glass, oled: oled && !glass, glass: glass, platform: defaultTargetPlatform);
   final cached = _monoThemeCache[key];
   if (cached != null) return cached;
 
-  final theme = _buildMonoTheme(dark: key.dark, oled: key.oled, platform: key.platform);
+  final theme = _buildMonoTheme(dark: key.dark, oled: key.oled, glass: key.glass, platform: key.platform);
   _monoThemeCache[key] = theme;
   return theme;
 }
 
-ThemeData _buildMonoTheme({required bool dark, required bool oled, required TargetPlatform platform}) {
+/// Liquid Glass tint over the blurred backdrop: dark enough that white text
+/// stays legible over bright artwork, light enough to let colour through.
+const _glassFill = Color(0x8C1E1F24);
+
+/// Denser glass for surfaces holding long-form content (dialogs, sheets,
+/// menus), which need more separation from what's behind them.
+const _glassThick = Color(0xE61C1D22);
+const _glassRim = Color(0x80FFFFFF);
+const _glassBorder = BorderSide(color: Color(0x29FFFFFF));
+
+ThemeData _buildMonoTheme({
+  required bool dark,
+  required bool oled,
+  required bool glass,
+  required TargetPlatform platform,
+}) {
   // neutral greys tuned for crisp contrast
   final ({Color bg, Color surface, Color outline, Color text, Color textMuted}) c;
-  if (oled) {
+  if (glass) {
+    // Apple TV: near-black canvas with a cool cast, graphite cells, and the
+    // system label / secondary-label greys.
+    c = (
+      bg: const Color(0xFF08090C),
+      surface: const Color(0xFF1C1D22),
+      outline: const Color(0x24FFFFFF),
+      text: const Color(0xFFF5F5F7),
+      textMuted: const Color(0x99EBEBF5),
+    );
+  } else if (oled) {
     c = (
       bg: const Color(0xFF000000), // Pure black for OLED
       surface: const Color(0xFF0A0A0A), // Very dark gray
@@ -183,6 +211,8 @@ ThemeData _buildMonoTheme({required bool dark, required bool oled, required Targ
     ),
   );
 
+  if (glass) return _applyLiquidGlass(base, c, buttonStyle);
+
   return base.copyWith(
     extensions: [
       MonoTokens(
@@ -206,11 +236,169 @@ ThemeData _buildMonoTheme({required bool dark, required bool oled, required Targ
   );
 }
 
+/// Liquid Glass overrides on top of the dark mono base: rounder, softer
+/// geometry, bolder Apple-style titles, capsule controls, and translucent
+/// overlays with a hairline specular border.
+ThemeData _applyLiquidGlass(
+  ThemeData base,
+  ({Color bg, Color surface, Color outline, Color text, Color textMuted}) c,
+  ButtonStyle buttonStyle,
+) {
+  // Styles derive from the text theme so they keep its font fallbacks
+  // (the bundled CJK fonts on Linux).
+  final glassButtonStyle = buttonStyle.copyWith(
+    padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 24, vertical: 15)),
+    textStyle: WidgetStatePropertyAll(
+      base.textTheme.labelLarge?.copyWith(fontSize: 15, fontWeight: .w600, letterSpacing: -0.1),
+    ),
+  );
+  // Secondary buttons are frosted capsules rather than bare text.
+  final tonalButtonStyle = glassButtonStyle.copyWith(
+    backgroundColor: WidgetStateProperty.resolveWith(
+      (states) => c.text.withValues(alpha: states.contains(WidgetState.disabled) ? 0.06 : 0.14),
+    ),
+    foregroundColor: WidgetStateProperty.resolveWith(
+      (states) => states.contains(WidgetState.disabled) ? c.text.withValues(alpha: 0.38) : c.text,
+    ),
+    side: const WidgetStatePropertyAll(_glassBorder),
+  );
+  const overlayShape = RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30)), side: _glassBorder);
+  final textTheme = base.textTheme.copyWith(
+    displayLarge: base.textTheme.displayLarge?.copyWith(fontWeight: .w800, letterSpacing: -1.2),
+    displayMedium: base.textTheme.displayMedium?.copyWith(fontWeight: .w800, letterSpacing: -1),
+    displaySmall: base.textTheme.displaySmall?.copyWith(fontWeight: .w700, letterSpacing: -0.8),
+    headlineLarge: base.textTheme.headlineLarge?.copyWith(fontWeight: .w700, letterSpacing: -0.6),
+    headlineMedium: base.textTheme.headlineMedium?.copyWith(fontWeight: .w700, letterSpacing: -0.5),
+    headlineSmall: base.textTheme.headlineSmall?.copyWith(fontWeight: .w700, letterSpacing: -0.4),
+    titleLarge: base.textTheme.titleLarge?.copyWith(fontWeight: .w700, letterSpacing: -0.3),
+    titleMedium: base.textTheme.titleMedium?.copyWith(fontWeight: .w600, letterSpacing: -0.2),
+  );
+
+  return base.copyWith(
+    textTheme: textTheme,
+    focusColor: c.text.withValues(alpha: 0.16),
+    hoverColor: c.text.withValues(alpha: 0.07),
+    appBarTheme: base.appBarTheme.copyWith(
+      titleTextStyle: base.appBarTheme.titleTextStyle?.copyWith(fontSize: 20, letterSpacing: -0.4),
+    ),
+    cardTheme: base.cardTheme.copyWith(
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(22)), side: _glassBorder),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(style: glassButtonStyle),
+    filledButtonTheme: FilledButtonThemeData(style: glassButtonStyle),
+    outlinedButtonTheme: OutlinedButtonThemeData(style: tonalButtonStyle),
+    inputDecorationTheme: _inputDecorationTheme(c.text, c.textMuted, radius: 16),
+    // The bar and rail sit inside a LiquidGlass capsule that paints the
+    // surface, so they must stay transparent themselves.
+    navigationBarTheme: base.navigationBarTheme.copyWith(
+      backgroundColor: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
+      height: 64,
+      indicatorColor: c.text.withValues(alpha: 0.16),
+      indicatorShape: const StadiumBorder(),
+      labelTextStyle: WidgetStateProperty.resolveWith(
+        (states) => TextStyle(
+          color: states.contains(WidgetState.selected) ? c.text : c.textMuted,
+          fontSize: 11,
+          fontWeight: states.contains(WidgetState.selected) ? .w600 : .w500,
+        ),
+      ),
+    ),
+    navigationRailTheme: NavigationRailThemeData(
+      backgroundColor: Colors.transparent,
+      indicatorColor: c.text.withValues(alpha: 0.16),
+      indicatorShape: const StadiumBorder(),
+      selectedIconTheme: IconThemeData(color: c.text),
+      unselectedIconTheme: IconThemeData(color: c.textMuted),
+      selectedLabelTextStyle: TextStyle(color: c.text, fontSize: 11, fontWeight: .w600),
+      unselectedLabelTextStyle: TextStyle(color: c.textMuted, fontSize: 11),
+    ),
+    dialogTheme: DialogThemeData(
+      backgroundColor: _glassThick,
+      surfaceTintColor: Colors.transparent,
+      elevation: 0,
+      shape: overlayShape,
+      barrierColor: const Color(0x73000000),
+      titleTextStyle: textTheme.titleLarge?.copyWith(color: c.text, fontSize: 20, letterSpacing: -0.4),
+    ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: _glassThick,
+      modalBackgroundColor: _glassThick,
+      surfaceTintColor: Colors.transparent,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+        side: _glassBorder,
+      ),
+    ),
+    popupMenuTheme: PopupMenuThemeData(
+      color: _glassThick,
+      surfaceTintColor: Colors.transparent,
+      elevation: 8,
+      shadowColor: Colors.black54,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(18)), side: _glassBorder),
+    ),
+    menuTheme: const MenuThemeData(
+      style: MenuStyle(
+        backgroundColor: WidgetStatePropertyAll(_glassThick),
+        surfaceTintColor: WidgetStatePropertyAll(Colors.transparent),
+        shape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(18)), side: _glassBorder),
+        ),
+      ),
+    ),
+    tooltipTheme: TooltipThemeData(
+      decoration: ShapeDecoration(
+        color: _glassThick,
+        shape: const StadiumBorder(side: _glassBorder),
+      ),
+      textStyle: TextStyle(color: c.text, fontSize: 12, fontWeight: .w500),
+    ),
+    chipTheme: base.chipTheme.copyWith(
+      backgroundColor: c.text.withValues(alpha: 0.1),
+      selectedColor: c.text,
+      shape: const StadiumBorder(side: _glassBorder),
+    ),
+    snackBarTheme: base.snackBarTheme.copyWith(
+      backgroundColor: const Color(0xF22A2B31),
+      shape: const StadiumBorder(side: _glassBorder),
+      elevation: 0,
+    ),
+    extensions: [
+      MonoTokens(
+        radiusSm: 12,
+        radiusMd: 18,
+        radiusLg: 28,
+        radiusXs: 8,
+        groupGap: 2,
+        space: 14,
+        // Unhurried, fluid motion: glass "settles" rather than snaps.
+        fast: const Duration(milliseconds: 160),
+        normal: const Duration(milliseconds: 260),
+        slow: const Duration(milliseconds: 380),
+        expressive: const Duration(milliseconds: 450),
+        bg: c.bg,
+        surface: c.surface,
+        outline: c.outline,
+        text: c.text,
+        textMuted: c.textMuted,
+        glass: true,
+        glassFill: _glassFill,
+        glassRim: _glassRim,
+        glassBlur: 28,
+      ),
+    ],
+  );
+}
+
 /// Brighter fill on focus so input focus is visible inside TV overscan.
-InputDecorationTheme _inputDecorationTheme(Color text, Color textMuted) {
+InputDecorationTheme _inputDecorationTheme(Color text, Color textMuted, {double radius = 12}) {
   final unfocusedFill = text.withValues(alpha: 0.08);
   final focusedFill = text.withValues(alpha: 0.18);
-  const border = OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12)), borderSide: BorderSide.none);
+  final border = OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(radius)),
+    borderSide: BorderSide.none,
+  );
   return InputDecorationTheme(
     filled: true,
     fillColor: WidgetStateColor.resolveWith(

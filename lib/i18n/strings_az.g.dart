@@ -248,6 +248,7 @@ class _Translations$settings$az extends Translations$settings$en {
 	@override String get lightTheme => 'Açıq';
 	@override String get darkTheme => 'Tünd';
 	@override String get oledTheme => 'OLED';
+	@override String get liquidGlassTheme => 'Liquid Glass';
 	@override String get libraryDensity => 'Kitabxana sıxlığı';
 	@override String get displayScale => 'Ekran miqyası';
 	@override String get compact => 'Sıx';
@@ -3166,6 +3167,7 @@ extension on TranslationsAz {
 			'settings.lightTheme' => 'Açıq',
 			'settings.darkTheme' => 'Tünd',
 			'settings.oledTheme' => 'OLED',
+			'settings.liquidGlassTheme' => 'Liquid Glass',
 			'settings.libraryDensity' => 'Kitabxana sıxlığı',
 			'settings.displayScale' => 'Ekran miqyası',
 			'settings.compact' => 'Sıx',
@@ -3550,9 +3552,9 @@ extension on TranslationsAz {
 			'fileInfo.scalingMatrix' => 'Xüsusi miqyaslama matrisi',
 			'fileInfo.streamIdentifier' => 'Axın identifikatoru',
 			'fileInfo.streamIndex' => 'Axın indeksi',
-			'fileInfo.streamId' => 'Axın ID-si',
 			_ => null,
 		} ?? switch (path) {
+			'fileInfo.streamId' => 'Axın ID-si',
 			'fileInfo.language' => 'Dil',
 			'fileInfo.languageCode' => 'Dil kodu',
 			'fileInfo.streamTitle' => 'Trek başlığı',
@@ -4064,9 +4066,9 @@ extension on TranslationsAz {
 			'libraries.scanLibrary' => 'Kitabxananı skan et',
 			'libraries.analyze' => 'Analiz et',
 			'libraries.analyzeLibrary' => 'Kitabxananı analiz et',
-			'libraries.refreshMetadata' => 'Meta-məlumatları yenilə',
 			_ => null,
 		} ?? switch (path) {
+			'libraries.refreshMetadata' => 'Meta-məlumatları yenilə',
 			'libraries.emptyTrash' => 'Zibil qutusunu təmizlə',
 			'libraries.emptyingTrash' => ({required Object title}) => '"${title}" üçün zibil qutusu təmizlənir...',
 			'libraries.trashEmptied' => ({required Object title}) => '"${title}" üçün zibil qutusu təmizləndi',
@@ -4578,9 +4580,9 @@ extension on TranslationsAz {
 			'watchTogether.waitingForParticipants' => 'Digərlərinin yükləməsi gözlənilir...',
 			'watchTogether.waitingForName' => ({required Object name}) => '${name} gözlənilir...',
 			'watchTogether.recentRooms' => 'Son otaqlar',
-			'watchTogether.renameRoom' => 'Otağın adını dəyişdir',
 			_ => null,
 		} ?? switch (path) {
+			'watchTogether.renameRoom' => 'Otağın adını dəyişdir',
 			'watchTogether.removeRoom' => 'Sil',
 			'watchTogether.guestSwitchUnavailable' => 'Keçid etmək olmadı — eyniləşdirmə üçün server əlçatan deyil',
 			'watchTogether.guestSwitchFailed' => 'Keçid etmək olmadı — məzmun bu serverdə tapılmadı',
@@ -5092,9 +5094,9 @@ extension on TranslationsAz {
 			'addServer.connectToMediaBrowserCardSubtitle' => 'Server URL-inizi, istifadəçi adınızı və şifrənizi daxil edin.',
 			'addServer.connectToMediaBrowserCardSubtitleScoped' => ({required Object product, required Object name}) => '${product} serverinizə daxil olun. ${name} ilə əlaqələndirilir.',
 			'addServer.borrowFromAnotherProfile' => 'Başqa profildən götür',
-			'addServer.borrowFromAnotherProfileSubtitle' => 'Başqa profilin qoşulmasını yenidən istifadə edin. PIN ilə qorunan profillər PIN tələb edir.',
 			_ => null,
 		} ?? switch (path) {
+			'addServer.borrowFromAnotherProfileSubtitle' => 'Başqa profilin qoşulmasını yenidən istifadə edin. PIN ilə qorunan profillər PIN tələb edir.',
 			'addServer.invalidCredentials' => 'İstifadəçi adı və ya şifrə yanlışdır',
 			'addServer.authResponseNotJson' => 'Autentifikasiya cavabı etibarlı JSON deyildi',
 			'addServer.authResponseIncomplete' => 'Serverin giriş cavabı natamam idi',

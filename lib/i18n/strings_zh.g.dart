@@ -248,6 +248,7 @@ class Translations$settings$zh extends Translations$settings$en {
 	@override String get lightTheme => '浅色';
 	@override String get darkTheme => '深色';
 	@override String get oledTheme => 'OLED';
+	@override String get liquidGlassTheme => 'Liquid Glass';
 	@override String get libraryDensity => '媒体库密度';
 	@override String get displayScale => '界面缩放';
 	@override String get compact => '紧凑';
@@ -3155,6 +3156,7 @@ extension on TranslationsZh {
 			'settings.lightTheme' => '浅色',
 			'settings.darkTheme' => '深色',
 			'settings.oledTheme' => 'OLED',
+			'settings.liquidGlassTheme' => 'Liquid Glass',
 			'settings.libraryDensity' => '媒体库密度',
 			'settings.displayScale' => '界面缩放',
 			'settings.compact' => '紧凑',
@@ -3539,9 +3541,9 @@ extension on TranslationsZh {
 			'fileInfo.scalingMatrix' => '自定义缩放矩阵',
 			'fileInfo.streamIdentifier' => '流标识符',
 			'fileInfo.streamIndex' => '流索引',
-			'fileInfo.streamId' => '流 ID',
 			_ => null,
 		} ?? switch (path) {
+			'fileInfo.streamId' => '流 ID',
 			'fileInfo.language' => '语言',
 			'fileInfo.languageCode' => '语言代码',
 			'fileInfo.streamTitle' => '轨道标题',
@@ -4053,9 +4055,9 @@ extension on TranslationsZh {
 			'libraries.scanLibrary' => '扫描媒体库',
 			'libraries.analyze' => '分析',
 			'libraries.analyzeLibrary' => '分析媒体库',
-			'libraries.refreshMetadata' => '刷新元数据',
 			_ => null,
 		} ?? switch (path) {
+			'libraries.refreshMetadata' => '刷新元数据',
 			'libraries.emptyTrash' => '清空回收站',
 			'libraries.emptyingTrash' => ({required Object title}) => '正在清空“${title}”的回收站…',
 			'libraries.trashEmptied' => ({required Object title}) => '已清空“${title}”的回收站',
@@ -4567,9 +4569,9 @@ extension on TranslationsZh {
 			'watchTogether.waitingForParticipants' => '正在等待其他人加载…',
 			'watchTogether.waitingForName' => ({required Object name}) => '正在等待 ${name}…',
 			'watchTogether.recentRooms' => '最近的房间',
-			'watchTogether.renameRoom' => '重命名房间',
 			_ => null,
 		} ?? switch (path) {
+			'watchTogether.renameRoom' => '重命名房间',
 			'watchTogether.removeRoom' => '移除',
 			'watchTogether.guestSwitchUnavailable' => '无法切换 — 服务器不可用于同步',
 			'watchTogether.guestSwitchFailed' => '无法切换 — 在此服务器上未找到内容',
@@ -5081,9 +5083,9 @@ extension on TranslationsZh {
 			'addServer.connectToMediaBrowserCardSubtitle' => '输入你的服务器 URL、用户名和密码。',
 			'addServer.connectToMediaBrowserCardSubtitleScoped' => ({required Object product, required Object name}) => '登录你的 ${product} 服务器。将绑定到 ${name}。',
 			'addServer.borrowFromAnotherProfile' => '使用其他用户资料的连接',
-			'addServer.borrowFromAnotherProfileSubtitle' => '复用另一个用户资料的连接。受 PIN 保护的用户资料需要输入 PIN。',
 			_ => null,
 		} ?? switch (path) {
+			'addServer.borrowFromAnotherProfileSubtitle' => '复用另一个用户资料的连接。受 PIN 保护的用户资料需要输入 PIN。',
 			'addServer.invalidCredentials' => '用户名或密码无效',
 			'addServer.authResponseNotJson' => '身份验证响应不是有效的 JSON',
 			'addServer.authResponseIncomplete' => '服务器返回的登录响应不完整',
