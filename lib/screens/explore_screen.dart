@@ -37,6 +37,7 @@ import '../widgets/tv_browse_rail.dart';
 import '../widgets/tv_spotlight_scaffold.dart';
 import 'catalog_search_screen.dart';
 import 'libraries/state_messages.dart';
+import '../widgets/system_bottom_inset.dart';
 
 /// The Explore tab: watchlist + discover rows from the active external
 /// catalog source (Trakt). Only mounted when a source is connected (the tab
@@ -339,7 +340,8 @@ class ExploreScreenState extends State<ExploreScreen>
       // content, killing pull-to-refresh in the loading/empty/error
       // states without this.
       physics: const AlwaysScrollableScrollPhysics(),
-      slivers: [appBar(), searchField(), ...body],
+      // Clears the Liquid Glass tab bar, which floats over the content.
+      slivers: [appBar(), searchField(), ...body, const SliverSystemBottomInset()],
     );
 
     Widget content;

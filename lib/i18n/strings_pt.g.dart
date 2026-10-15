@@ -248,6 +248,7 @@ class _Translations$settings$pt extends Translations$settings$en {
 	@override String get lightTheme => 'Claro';
 	@override String get darkTheme => 'Escuro';
 	@override String get oledTheme => 'OLED';
+	@override String get liquidGlassTheme => 'Liquid Glass';
 	@override String get libraryDensity => 'Densidade da Biblioteca';
 	@override String get displayScale => 'Escala de exibição';
 	@override String get compact => 'Compacto';
@@ -3166,6 +3167,7 @@ extension on TranslationsPt {
 			'settings.lightTheme' => 'Claro',
 			'settings.darkTheme' => 'Escuro',
 			'settings.oledTheme' => 'OLED',
+			'settings.liquidGlassTheme' => 'Liquid Glass',
 			'settings.libraryDensity' => 'Densidade da Biblioteca',
 			'settings.displayScale' => 'Escala de exibição',
 			'settings.compact' => 'Compacto',
@@ -3550,9 +3552,9 @@ extension on TranslationsPt {
 			'fileInfo.scalingMatrix' => 'Matriz de dimensionamento personalizada',
 			'fileInfo.streamIdentifier' => 'Identificador do fluxo',
 			'fileInfo.streamIndex' => 'Índice do fluxo',
-			'fileInfo.streamId' => 'ID do fluxo',
 			_ => null,
 		} ?? switch (path) {
+			'fileInfo.streamId' => 'ID do fluxo',
 			'fileInfo.language' => 'Idioma',
 			'fileInfo.languageCode' => 'Código do idioma',
 			'fileInfo.streamTitle' => 'Título da faixa',
@@ -4064,9 +4066,9 @@ extension on TranslationsPt {
 			'libraries.scanLibrary' => 'Escanear Biblioteca',
 			'libraries.analyze' => 'Analisar',
 			'libraries.analyzeLibrary' => 'Analisar Biblioteca',
-			'libraries.refreshMetadata' => 'Atualizar Metadados',
 			_ => null,
 		} ?? switch (path) {
+			'libraries.refreshMetadata' => 'Atualizar Metadados',
 			'libraries.emptyTrash' => 'Esvaziar Lixeira',
 			'libraries.emptyingTrash' => ({required Object title}) => 'Esvaziando lixeira de "${title}"...',
 			'libraries.trashEmptied' => ({required Object title}) => 'Lixeira esvaziada de "${title}"',
@@ -4578,9 +4580,9 @@ extension on TranslationsPt {
 			'watchTogether.waitingForParticipants' => 'Aguardando o carregamento dos outros participantes...',
 			'watchTogether.waitingForName' => ({required Object name}) => 'Aguardando ${name}...',
 			'watchTogether.recentRooms' => 'Salas recentes',
-			'watchTogether.renameRoom' => 'Renomear sala',
 			_ => null,
 		} ?? switch (path) {
+			'watchTogether.renameRoom' => 'Renomear sala',
 			'watchTogether.removeRoom' => 'Remover',
 			'watchTogether.guestSwitchUnavailable' => 'Não foi possível trocar — servidor indisponível para sincronização',
 			'watchTogether.guestSwitchFailed' => 'Não foi possível trocar — conteúdo não encontrado neste servidor',
@@ -5092,9 +5094,9 @@ extension on TranslationsPt {
 			'addServer.connectToMediaBrowserCardSubtitle' => 'Digite a URL do servidor, o nome de usuário e a senha.',
 			'addServer.connectToMediaBrowserCardSubtitleScoped' => ({required Object product, required Object name}) => 'Entre no seu servidor ${product}. Vinculado a ${name}.',
 			'addServer.borrowFromAnotherProfile' => 'Pegar emprestado de outro perfil',
-			'addServer.borrowFromAnotherProfileSubtitle' => 'Reutilize a conexão de outro perfil. Perfis protegidos por PIN exigem PIN.',
 			_ => null,
 		} ?? switch (path) {
+			'addServer.borrowFromAnotherProfileSubtitle' => 'Reutilize a conexão de outro perfil. Perfis protegidos por PIN exigem PIN.',
 			'addServer.invalidCredentials' => 'Usuário ou senha inválidos',
 			'addServer.authResponseNotJson' => 'A resposta de autenticação não era um JSON válido',
 			'addServer.authResponseIncomplete' => 'A resposta de login do servidor estava incompleta',

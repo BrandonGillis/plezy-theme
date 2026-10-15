@@ -456,6 +456,9 @@ class Translations$settings$en {
 	/// en: 'OLED'
 	String get oledTheme => 'OLED';
 
+	/// en: 'Liquid Glass'
+	String get liquidGlassTheme => 'Liquid Glass';
+
 	/// en: 'Library Density'
 	String get libraryDensity => 'Library Density';
 
@@ -7533,6 +7536,7 @@ extension on Translations {
 			'settings.lightTheme' => 'Light',
 			'settings.darkTheme' => 'Dark',
 			'settings.oledTheme' => 'OLED',
+			'settings.liquidGlassTheme' => 'Liquid Glass',
 			'settings.libraryDensity' => 'Library Density',
 			'settings.displayScale' => 'Display Scale',
 			'settings.compact' => 'Compact',
@@ -7917,9 +7921,9 @@ extension on Translations {
 			'fileInfo.anamorphic' => 'Anamorphic',
 			'fileInfo.referenceFrames' => 'Reference Frames',
 			'fileInfo.dynamicRange' => 'Dynamic Range',
-			'fileInfo.dolbyVision' => 'Dolby Vision',
 			_ => null,
 		} ?? switch (path) {
+			'fileInfo.dolbyVision' => 'Dolby Vision',
 			'fileInfo.dolbyVisionLevel' => 'Dolby Vision Level',
 			'fileInfo.dolbyVisionVersion' => 'Dolby Vision Version',
 			'fileInfo.dolbyVisionLayers' => 'Dolby Vision Layers',
@@ -8431,9 +8435,9 @@ extension on Translations {
 			'errors.noClientAvailable' => 'No client available',
 			'errors.pleaseEnterToken' => 'Please enter a token',
 			'errors.invalidToken' => 'Invalid token',
-			'errors.failedToVerifyToken' => ({required Object error}) => 'Failed to verify token: ${error}',
 			_ => null,
 		} ?? switch (path) {
+			'errors.failedToVerifyToken' => ({required Object error}) => 'Failed to verify token: ${error}',
 			'errors.failedToSwitchProfile' => ({required Object displayName}) => 'Failed to switch to ${displayName}',
 			'errors.failedToDeleteProfile' => ({required Object displayName}) => 'Failed to delete ${displayName}',
 			'errors.failedToRate' => 'Couldn\'t update rating',
@@ -8945,9 +8949,9 @@ extension on Translations {
 			'watchTogether.hostBadge' => 'HOST',
 			'watchTogether.youAreHost' => 'You are the host',
 			'watchTogether.makeHost' => 'Make host',
-			'watchTogether.makeHostQuestion' => 'Transfer host?',
 			_ => null,
 		} ?? switch (path) {
+			'watchTogether.makeHostQuestion' => 'Transfer host?',
 			'watchTogether.makeHostConfirm' => ({required Object name}) => '${name} will control playback and drive the session for everyone.',
 			'watchTogether.transfer' => 'Transfer',
 			'watchTogether.hostChangedTo' => ({required Object name}) => '${name} is now the host',
@@ -9459,9 +9463,9 @@ extension on Translations {
 			'services.connectedAs' => ({required Object username}) => 'Connected as @${username}',
 			'services.scrobble' => 'Track progress automatically',
 			'services.scrobbleDescription' => 'Update your list when you finish an episode or movie.',
-			'services.disconnectConfirm' => ({required Object service}) => 'Disconnect ${service}?',
 			_ => null,
 		} ?? switch (path) {
+			'services.disconnectConfirm' => ({required Object service}) => 'Disconnect ${service}?',
 			'services.disconnectConfirmBody' => ({required Object service}) => 'Plezy will stop updating ${service}. Reconnect any time.',
 			'services.connectFailed' => ({required Object service}) => 'Couldn\'t connect to ${service}. Try again.',
 			'services.names.mal' => 'MyAnimeList',

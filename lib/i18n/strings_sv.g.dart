@@ -248,6 +248,7 @@ class _Translations$settings$sv extends Translations$settings$en {
 	@override String get lightTheme => 'Ljust';
 	@override String get darkTheme => 'Mörkt';
 	@override String get oledTheme => 'OLED';
+	@override String get liquidGlassTheme => 'Liquid Glass';
 	@override String get libraryDensity => 'Biblioteksdensitet';
 	@override String get displayScale => 'Skalning';
 	@override String get compact => 'Kompakt';
@@ -3166,6 +3167,7 @@ extension on TranslationsSv {
 			'settings.lightTheme' => 'Ljust',
 			'settings.darkTheme' => 'Mörkt',
 			'settings.oledTheme' => 'OLED',
+			'settings.liquidGlassTheme' => 'Liquid Glass',
 			'settings.libraryDensity' => 'Biblioteksdensitet',
 			'settings.displayScale' => 'Skalning',
 			'settings.compact' => 'Kompakt',
@@ -3550,9 +3552,9 @@ extension on TranslationsSv {
 			'fileInfo.scalingMatrix' => 'Anpassad skalningsmatris',
 			'fileInfo.streamIdentifier' => 'Strömidentifierare',
 			'fileInfo.streamIndex' => 'Strömindex',
-			'fileInfo.streamId' => 'Ström-ID',
 			_ => null,
 		} ?? switch (path) {
+			'fileInfo.streamId' => 'Ström-ID',
 			'fileInfo.language' => 'Språk',
 			'fileInfo.languageCode' => 'Språkkod',
 			'fileInfo.streamTitle' => 'Spårnamn',
@@ -4064,9 +4066,9 @@ extension on TranslationsSv {
 			'libraries.scanLibrary' => 'Skanna bibliotek',
 			'libraries.analyze' => 'Analysera',
 			'libraries.analyzeLibrary' => 'Analysera bibliotek',
-			'libraries.refreshMetadata' => 'Uppdatera metadata',
 			_ => null,
 		} ?? switch (path) {
+			'libraries.refreshMetadata' => 'Uppdatera metadata',
 			'libraries.emptyTrash' => 'Töm papperskorg',
 			'libraries.emptyingTrash' => ({required Object title}) => 'Tömmer papperskorgen för "${title}"...',
 			'libraries.trashEmptied' => ({required Object title}) => 'Papperskorgen har tömts för "${title}"',
@@ -4578,9 +4580,9 @@ extension on TranslationsSv {
 			'watchTogether.waitingForParticipants' => 'Väntar på att de andra ska ladda klart...',
 			'watchTogether.waitingForName' => ({required Object name}) => 'Väntar på ${name}...',
 			'watchTogether.recentRooms' => 'Senaste rummen',
-			'watchTogether.renameRoom' => 'Byt namn på rummet',
 			_ => null,
 		} ?? switch (path) {
+			'watchTogether.renameRoom' => 'Byt namn på rummet',
 			'watchTogether.removeRoom' => 'Ta bort',
 			'watchTogether.guestSwitchUnavailable' => 'Kunde inte byta — server inte tillgänglig för synkronisering',
 			'watchTogether.guestSwitchFailed' => 'Kunde inte byta — innehåll hittades inte på denna server',
@@ -5092,9 +5094,9 @@ extension on TranslationsSv {
 			'addServer.connectToMediaBrowserCardSubtitle' => 'Ange din server-URL, användarnamn och lösenord.',
 			'addServer.connectToMediaBrowserCardSubtitleScoped' => ({required Object product, required Object name}) => 'Logga in på din ${product}-server. Knyts till ${name}.',
 			'addServer.borrowFromAnotherProfile' => 'Låna från en annan profil',
-			'addServer.borrowFromAnotherProfileSubtitle' => 'Återanvänd en annan profils anslutning. PIN-skyddade profiler kräver en PIN.',
 			_ => null,
 		} ?? switch (path) {
+			'addServer.borrowFromAnotherProfileSubtitle' => 'Återanvänd en annan profils anslutning. PIN-skyddade profiler kräver en PIN.',
 			'addServer.invalidCredentials' => 'Ogiltigt användarnamn eller lösenord',
 			'addServer.authResponseNotJson' => 'Autentiseringssvaret var inte ett giltigt JSON-svar',
 			'addServer.authResponseIncomplete' => 'Inloggningssvaret från servern var ofullständigt',

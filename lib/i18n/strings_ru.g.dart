@@ -248,6 +248,7 @@ class _Translations$settings$ru extends Translations$settings$en {
 	@override String get lightTheme => 'Светлая';
 	@override String get darkTheme => 'Тёмная';
 	@override String get oledTheme => 'OLED';
+	@override String get liquidGlassTheme => 'Liquid Glass';
 	@override String get libraryDensity => 'Плотность библиотеки';
 	@override String get displayScale => 'Масштаб отображения';
 	@override String get compact => 'Компактный';
@@ -3188,6 +3189,7 @@ extension on TranslationsRu {
 			'settings.lightTheme' => 'Светлая',
 			'settings.darkTheme' => 'Тёмная',
 			'settings.oledTheme' => 'OLED',
+			'settings.liquidGlassTheme' => 'Liquid Glass',
 			'settings.libraryDensity' => 'Плотность библиотеки',
 			'settings.displayScale' => 'Масштаб отображения',
 			'settings.compact' => 'Компактный',
@@ -3572,9 +3574,9 @@ extension on TranslationsRu {
 			'fileInfo.scalingMatrix' => 'Пользовательская матрица масштабирования',
 			'fileInfo.streamIdentifier' => 'Идентификатор потока',
 			'fileInfo.streamIndex' => 'Индекс потока',
-			'fileInfo.streamId' => 'ID потока',
 			_ => null,
 		} ?? switch (path) {
+			'fileInfo.streamId' => 'ID потока',
 			'fileInfo.language' => 'Язык',
 			'fileInfo.languageCode' => 'Код языка',
 			'fileInfo.streamTitle' => 'Название дорожки',
@@ -4086,9 +4088,9 @@ extension on TranslationsRu {
 			'libraries.scanLibrary' => 'Сканировать библиотеку',
 			'libraries.analyze' => 'Анализировать',
 			'libraries.analyzeLibrary' => 'Анализировать библиотеку',
-			'libraries.refreshMetadata' => 'Обновить метаданные',
 			_ => null,
 		} ?? switch (path) {
+			'libraries.refreshMetadata' => 'Обновить метаданные',
 			'libraries.emptyTrash' => 'Очистить корзину',
 			'libraries.emptyingTrash' => ({required Object title}) => 'Очистка корзины для "${title}"...',
 			'libraries.trashEmptied' => ({required Object title}) => 'Корзина очищена для "${title}"',
@@ -4600,9 +4602,9 @@ extension on TranslationsRu {
 			'watchTogether.waitingForParticipants' => 'Ожидание загрузки у других...',
 			'watchTogether.waitingForName' => ({required Object name}) => 'Ожидание ${name}...',
 			'watchTogether.recentRooms' => 'Недавние комнаты',
-			'watchTogether.renameRoom' => 'Переименовать комнату',
 			_ => null,
 		} ?? switch (path) {
+			'watchTogether.renameRoom' => 'Переименовать комнату',
 			'watchTogether.removeRoom' => 'Удалить',
 			'watchTogether.guestSwitchUnavailable' => 'Не удалось переключиться — сервер недоступен для синхронизации',
 			'watchTogether.guestSwitchFailed' => 'Не удалось переключиться — содержимое не найдено на этом сервере',
@@ -5114,9 +5116,9 @@ extension on TranslationsRu {
 			'addServer.connectToMediaBrowserCardSubtitle' => 'Введите URL сервера, имя пользователя и пароль.',
 			'addServer.connectToMediaBrowserCardSubtitleScoped' => ({required Object product, required Object name}) => 'Войдите на свой сервер ${product}. Будет привязано к ${name}.',
 			'addServer.borrowFromAnotherProfile' => 'Использовать подключение другого профиля',
-			'addServer.borrowFromAnotherProfileSubtitle' => 'Повторно используйте подключение другого профиля. Для защищённых профилей потребуется PIN.',
 			_ => null,
 		} ?? switch (path) {
+			'addServer.borrowFromAnotherProfileSubtitle' => 'Повторно используйте подключение другого профиля. Для защищённых профилей потребуется PIN.',
 			'addServer.invalidCredentials' => 'Неверное имя пользователя или пароль',
 			'addServer.authResponseNotJson' => 'Ответ аутентификации не является допустимым JSON',
 			'addServer.authResponseIncomplete' => 'Ответ сервера при входе оказался неполным',

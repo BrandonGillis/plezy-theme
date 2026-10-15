@@ -248,6 +248,7 @@ class _Translations$settings$uz extends Translations$settings$en {
 	@override String get lightTheme => 'Yorugʻ';
 	@override String get darkTheme => 'Toʻq';
 	@override String get oledTheme => 'OLED';
+	@override String get liquidGlassTheme => 'Liquid Glass';
 	@override String get libraryDensity => 'Kutubxona zichligi';
 	@override String get displayScale => 'Ekran miqyosi';
 	@override String get compact => 'Ixcham';
@@ -3166,6 +3167,7 @@ extension on TranslationsUz {
 			'settings.lightTheme' => 'Yorugʻ',
 			'settings.darkTheme' => 'Toʻq',
 			'settings.oledTheme' => 'OLED',
+			'settings.liquidGlassTheme' => 'Liquid Glass',
 			'settings.libraryDensity' => 'Kutubxona zichligi',
 			'settings.displayScale' => 'Ekran miqyosi',
 			'settings.compact' => 'Ixcham',
@@ -3550,9 +3552,9 @@ extension on TranslationsUz {
 			'fileInfo.scalingMatrix' => 'Maxsus masshtablash matritsasi',
 			'fileInfo.streamIdentifier' => 'Oqim identifikatori',
 			'fileInfo.streamIndex' => 'Oqim indeksi',
-			'fileInfo.streamId' => 'Oqim ID-si',
 			_ => null,
 		} ?? switch (path) {
+			'fileInfo.streamId' => 'Oqim ID-si',
 			'fileInfo.language' => 'Til',
 			'fileInfo.languageCode' => 'Til kodi',
 			'fileInfo.streamTitle' => 'Trek nomi',
@@ -4064,9 +4066,9 @@ extension on TranslationsUz {
 			'libraries.scanLibrary' => 'Kutubxonani skanerlash',
 			'libraries.analyze' => 'Tahlil qilish',
 			'libraries.analyzeLibrary' => 'Kutubxonani tahlil qilish',
-			'libraries.refreshMetadata' => 'Metamaʼlumotlarni yangilash',
 			_ => null,
 		} ?? switch (path) {
+			'libraries.refreshMetadata' => 'Metamaʼlumotlarni yangilash',
 			'libraries.emptyTrash' => 'Savatni tozalash',
 			'libraries.emptyingTrash' => ({required Object title}) => '"${title}" savati tozalanmoqda...',
 			'libraries.trashEmptied' => ({required Object title}) => '"${title}" savati tozalandi',
@@ -4578,9 +4580,9 @@ extension on TranslationsUz {
 			'watchTogether.waitingForParticipants' => 'Boshqalarning yuklashini kutilmoqda...',
 			'watchTogether.waitingForName' => ({required Object name}) => '${name} kutilmoqda...',
 			'watchTogether.recentRooms' => 'Yaqindagi xonalar',
-			'watchTogether.renameRoom' => 'Xona nomini oʻzgartirish',
 			_ => null,
 		} ?? switch (path) {
+			'watchTogether.renameRoom' => 'Xona nomini oʻzgartirish',
 			'watchTogether.removeRoom' => 'Oʻchirish',
 			'watchTogether.guestSwitchUnavailable' => 'Oʻtib boʻlmadi — server sinxronlash uchun mavjud emas',
 			'watchTogether.guestSwitchFailed' => 'Oʻtib boʻlmadi — kontent topilmadi',
@@ -5092,9 +5094,9 @@ extension on TranslationsUz {
 			'addServer.connectToMediaBrowserCardSubtitle' => 'Server URL-ini, foydalanuvchi nomini va parolni kiriting.',
 			'addServer.connectToMediaBrowserCardSubtitleScoped' => ({required Object product, required Object name}) => '${product} serveringizga kiring. ${name} profiliga bogʻlanadi.',
 			'addServer.borrowFromAnotherProfile' => 'Boshqa profildan olish',
-			'addServer.borrowFromAnotherProfileSubtitle' => 'Boshqa profilning ulanishidan qayta foydalaning.',
 			_ => null,
 		} ?? switch (path) {
+			'addServer.borrowFromAnotherProfileSubtitle' => 'Boshqa profilning ulanishidan qayta foydalaning.',
 			'addServer.invalidCredentials' => 'Foydalanuvchi nomi yoki parol notoʻgʻri',
 			'addServer.authResponseNotJson' => 'Autentifikatsiya javobi yaroqli JSON emas',
 			'addServer.authResponseIncomplete' => 'Serverdan kelgan kirish javobi toʻliq emas',

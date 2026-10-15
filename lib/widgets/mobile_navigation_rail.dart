@@ -3,6 +3,8 @@ import 'package:material_symbols_icons/symbols.dart';
 
 import '../i18n/strings.g.dart';
 import '../navigation/navigation_tabs.dart';
+import '../theme/liquid_glass.dart';
+import '../theme/mono_tokens.dart';
 import 'app_icon.dart';
 
 /// The mobile shell's navigation in landscape: the bottom [NavigationBar]'s
@@ -57,7 +59,7 @@ class MobileNavigationRail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectedIndex = tabs.indexWhere((tab) => tab.id == selectedTab);
-    return LayoutBuilder(
+    final layout = LayoutBuilder(
       builder: (context, constraints) {
         final height = constraints.maxHeight;
         final labelled = showLabels && labelsFit(destinations: tabs.length, hasLeading: isOffline, height: height);
@@ -79,6 +81,15 @@ class MobileNavigationRail extends StatelessWidget {
           ),
         );
       },
+    );
+    if (!isLiquidGlass(context)) return layout;
+    // Liquid Glass: a floating frosted column inset from the screen edges.
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 0, 8),
+      child: LiquidGlass(
+        borderRadius: BorderRadius.circular(tokens(context).radiusLg),
+        child: ClipRRect(borderRadius: BorderRadius.circular(tokens(context).radiusLg), child: layout),
+      ),
     );
   }
 

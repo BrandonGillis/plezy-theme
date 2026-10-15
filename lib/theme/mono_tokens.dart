@@ -45,6 +45,20 @@ class MonoTokens extends ThemeExtension<MonoTokens> {
   final Color text;
   final Color textMuted;
 
+  /// Liquid Glass palette: floating chrome (navigation, sheets, dialogs)
+  /// renders as blurred translucent glass via `LiquidGlass` instead of the
+  /// flat mono surface.
+  final bool glass;
+
+  /// Translucent tint laid over the blurred backdrop of a glass surface.
+  final Color glassFill;
+
+  /// Specular rim stroked around a glass surface's edge.
+  final Color glassRim;
+
+  /// Backdrop blur sigma of a glass surface.
+  final double glassBlur;
+
   const MonoTokens({
     required this.radiusSm,
     required this.radiusMd,
@@ -61,6 +75,10 @@ class MonoTokens extends ThemeExtension<MonoTokens> {
     required this.outline,
     required this.text,
     required this.textMuted,
+    this.glass = false,
+    this.glassFill = const Color(0x00000000),
+    this.glassRim = const Color(0x00000000),
+    this.glassBlur = 0,
   });
 
   @override
@@ -80,6 +98,10 @@ class MonoTokens extends ThemeExtension<MonoTokens> {
     Color? outline,
     Color? text,
     Color? textMuted,
+    bool? glass,
+    Color? glassFill,
+    Color? glassRim,
+    double? glassBlur,
   }) => MonoTokens(
     radiusSm: radiusSm ?? this.radiusSm,
     radiusMd: radiusMd ?? this.radiusMd,
@@ -96,6 +118,10 @@ class MonoTokens extends ThemeExtension<MonoTokens> {
     outline: outline ?? this.outline,
     text: text ?? this.text,
     textMuted: textMuted ?? this.textMuted,
+    glass: glass ?? this.glass,
+    glassFill: glassFill ?? this.glassFill,
+    glassRim: glassRim ?? this.glassRim,
+    glassBlur: glassBlur ?? this.glassBlur,
   );
 
   @override
@@ -120,6 +146,10 @@ class MonoTokens extends ThemeExtension<MonoTokens> {
       outline: lerpC(outline, other.outline),
       text: lerpC(text, other.text),
       textMuted: lerpC(textMuted, other.textMuted),
+      glass: t < 0.5 ? glass : other.glass,
+      glassFill: lerpC(glassFill, other.glassFill),
+      glassRim: lerpC(glassRim, other.glassRim),
+      glassBlur: lerpDouble(glassBlur, other.glassBlur, t)!,
     );
   }
 }

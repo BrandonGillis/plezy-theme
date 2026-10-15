@@ -248,6 +248,7 @@ class _Translations$settings$kk extends Translations$settings$en {
 	@override String get lightTheme => 'Жарық';
 	@override String get darkTheme => 'Қараңғы';
 	@override String get oledTheme => 'OLED';
+	@override String get liquidGlassTheme => 'Liquid Glass';
 	@override String get libraryDensity => 'Кітапхана тығыздығы';
 	@override String get displayScale => 'Дисплей масштабы';
 	@override String get compact => 'Тығыз';
@@ -3166,6 +3167,7 @@ extension on TranslationsKk {
 			'settings.lightTheme' => 'Жарық',
 			'settings.darkTheme' => 'Қараңғы',
 			'settings.oledTheme' => 'OLED',
+			'settings.liquidGlassTheme' => 'Liquid Glass',
 			'settings.libraryDensity' => 'Кітапхана тығыздығы',
 			'settings.displayScale' => 'Дисплей масштабы',
 			'settings.compact' => 'Тығыз',
@@ -3550,9 +3552,9 @@ extension on TranslationsKk {
 			'fileInfo.scalingMatrix' => 'Теңшелетін масштабтау матрицасы',
 			'fileInfo.streamIdentifier' => 'Ағын идентификаторы',
 			'fileInfo.streamIndex' => 'Ағын индексі',
-			'fileInfo.streamId' => 'Ағын ID',
 			_ => null,
 		} ?? switch (path) {
+			'fileInfo.streamId' => 'Ағын ID',
 			'fileInfo.language' => 'Тіл',
 			'fileInfo.languageCode' => 'Тіл коды',
 			'fileInfo.streamTitle' => 'Трек атауы',
@@ -4064,9 +4066,9 @@ extension on TranslationsKk {
 			'libraries.scanLibrary' => 'Кітапхананы сканерлеу',
 			'libraries.analyze' => 'Талдау жасау',
 			'libraries.analyzeLibrary' => 'Кітапханаға талдау жасау',
-			'libraries.refreshMetadata' => 'Метадеректерді жаңарту',
 			_ => null,
 		} ?? switch (path) {
+			'libraries.refreshMetadata' => 'Метадеректерді жаңарту',
 			'libraries.emptyTrash' => 'Себетті тазалау',
 			'libraries.emptyingTrash' => ({required Object title}) => '"${title}" себеті тазалануда...',
 			'libraries.trashEmptied' => ({required Object title}) => '"${title}" себеті тазаланды',
@@ -4578,9 +4580,9 @@ extension on TranslationsKk {
 			'watchTogether.waitingForParticipants' => 'Басқалардың жүктеуін күтуде...',
 			'watchTogether.waitingForName' => ({required Object name}) => '${name} күтілуде...',
 			'watchTogether.recentRooms' => 'Соңғы бөлмелер',
-			'watchTogether.renameRoom' => 'Бөлме атын өзгерткіңіз келе ме?',
 			_ => null,
 		} ?? switch (path) {
+			'watchTogether.renameRoom' => 'Бөлме атын өзгерткіңіз келе ме?',
 			'watchTogether.removeRoom' => 'Өшіру',
 			'watchTogether.guestSwitchUnavailable' => 'Ауысу мүмкін болмады — сервер синхрондау үшін қолжетімсіз',
 			'watchTogether.guestSwitchFailed' => 'Ауысу мүмкін болмады — мазмұн табылмады',
@@ -5092,9 +5094,9 @@ extension on TranslationsKk {
 			'addServer.connectToMediaBrowserCardSubtitle' => 'Сервер URL мекенжайын, пайдаланушы атын және құпия сөзді енгізіңіз.',
 			'addServer.connectToMediaBrowserCardSubtitleScoped' => ({required Object product, required Object name}) => '${product} серверіне кіріңіз. ${name} тіркелгісіне байланыстырылады.',
 			'addServer.borrowFromAnotherProfile' => 'Басқа профильден алу',
-			'addServer.borrowFromAnotherProfileSubtitle' => 'Басқа профильдің қосылымын қайта пайдалану. PIN кодпен қорғалған профильдер PIN кодты талап етеді.',
 			_ => null,
 		} ?? switch (path) {
+			'addServer.borrowFromAnotherProfileSubtitle' => 'Басқа профильдің қосылымын қайта пайдалану. PIN кодпен қорғалған профильдер PIN кодты талап етеді.',
 			'addServer.invalidCredentials' => 'Пайдаланушы аты немесе құпия сөз қате',
 			'addServer.authResponseNotJson' => 'Аутентификация жауабы жарамды JSON болмады',
 			'addServer.authResponseIncomplete' => 'Сервердің кіру жауабы толық емес',

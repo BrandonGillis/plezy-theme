@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../focus/card_focus_scope.dart';
 import '../../../focus/focus_theme.dart';
+import '../../../theme/liquid_glass.dart';
 
 /// Focus chrome for a round player control sitting on video.
 ///
@@ -35,7 +36,7 @@ class PlayerFocusDisc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final showFocus = CardFocusScope.maybeOf(context) ?? false;
-    return AnimatedContainer(
+    final disc = AnimatedContainer(
       duration: FocusTheme.getAnimationDuration(context),
       curve: Curves.easeOutCubic,
       decoration: BoxDecoration(
@@ -45,6 +46,9 @@ class PlayerFocusDisc extends StatelessWidget {
       ),
       child: builder(context, showFocus ? Colors.black.withValues(alpha: iconColor.a) : iconColor),
     );
+    // Liquid Glass: controls rest on frosted glass discs (tvOS 26 player).
+    if (!isLiquidGlass(context)) return disc;
+    return LiquidGlass(shadow: false, child: disc);
   }
 }
 

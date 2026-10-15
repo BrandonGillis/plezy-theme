@@ -248,6 +248,7 @@ class _Translations$settings$tr extends Translations$settings$en {
 	@override String get lightTheme => 'Açık';
 	@override String get darkTheme => 'Koyu';
 	@override String get oledTheme => 'OLED';
+	@override String get liquidGlassTheme => 'Liquid Glass';
 	@override String get libraryDensity => 'Kitaplık Yoğunluğu';
 	@override String get displayScale => 'Ekran ölçeği';
 	@override String get compact => 'Sıkışık';
@@ -3166,6 +3167,7 @@ extension on TranslationsTr {
 			'settings.lightTheme' => 'Açık',
 			'settings.darkTheme' => 'Koyu',
 			'settings.oledTheme' => 'OLED',
+			'settings.liquidGlassTheme' => 'Liquid Glass',
 			'settings.libraryDensity' => 'Kitaplık Yoğunluğu',
 			'settings.displayScale' => 'Ekran ölçeği',
 			'settings.compact' => 'Sıkışık',
@@ -3550,9 +3552,9 @@ extension on TranslationsTr {
 			'fileInfo.scalingMatrix' => 'Özel Ölçekleme Matrisi',
 			'fileInfo.streamIdentifier' => 'Akış Tanımlayıcısı',
 			'fileInfo.streamIndex' => 'Akış Dizini',
-			'fileInfo.streamId' => 'Akış Kimliği',
 			_ => null,
 		} ?? switch (path) {
+			'fileInfo.streamId' => 'Akış Kimliği',
 			'fileInfo.language' => 'Dil',
 			'fileInfo.languageCode' => 'Dil Kodu',
 			'fileInfo.streamTitle' => 'Parça Başlığı',
@@ -4064,9 +4066,9 @@ extension on TranslationsTr {
 			'libraries.scanLibrary' => 'Kitaplığı Taramak',
 			'libraries.analyze' => 'Analiz Et',
 			'libraries.analyzeLibrary' => 'Kitaplığı Analiz Et',
-			'libraries.refreshMetadata' => 'Meta Verileri Yenile',
 			_ => null,
 		} ?? switch (path) {
+			'libraries.refreshMetadata' => 'Meta Verileri Yenile',
 			'libraries.emptyTrash' => 'Çöpü Boşalt',
 			'libraries.emptyingTrash' => ({required Object title}) => '"${title}" için çöp boşaltılıyor...',
 			'libraries.trashEmptied' => ({required Object title}) => '"${title}" için çöp boşaltıldı',
@@ -4578,9 +4580,9 @@ extension on TranslationsTr {
 			'watchTogether.waitingForParticipants' => 'Diğerlerinin yüklemesi bekleniyor...',
 			'watchTogether.waitingForName' => ({required Object name}) => '${name} bekleniyor...',
 			'watchTogether.recentRooms' => 'Son Odalar',
-			'watchTogether.renameRoom' => 'Odayı Yeniden Adlandır',
 			_ => null,
 		} ?? switch (path) {
+			'watchTogether.renameRoom' => 'Odayı Yeniden Adlandır',
 			'watchTogether.removeRoom' => 'Kaldır',
 			'watchTogether.guestSwitchUnavailable' => 'Geçiş yapılamadı — eşitleme için sunucu mevcut değil',
 			'watchTogether.guestSwitchFailed' => 'Geçiş yapılamadı — içerik bu sunucuda bulunamadı',
@@ -5092,9 +5094,9 @@ extension on TranslationsTr {
 			'addServer.connectToMediaBrowserCardSubtitle' => 'Sunucu URL\'nizi, kullanıcı adınızı ve şifrenizi girin.',
 			'addServer.connectToMediaBrowserCardSubtitleScoped' => ({required Object product, required Object name}) => '${product} sunucunuza giriş yapın. ${name} profiline bağlanır.',
 			'addServer.borrowFromAnotherProfile' => 'Başka bir profilden ödünç al',
-			'addServer.borrowFromAnotherProfileSubtitle' => 'Başka bir profilin bağlantısını yeniden kullanın. PIN korumalı profiller bir PIN gerektirir.',
 			_ => null,
 		} ?? switch (path) {
+			'addServer.borrowFromAnotherProfileSubtitle' => 'Başka bir profilin bağlantısını yeniden kullanın. PIN korumalı profiller bir PIN gerektirir.',
 			'addServer.invalidCredentials' => 'Geçersiz kullanıcı adı veya şifre',
 			'addServer.authResponseNotJson' => 'Kimlik doğrulama yanıtı geçerli bir JSON değildi',
 			'addServer.authResponseIncomplete' => 'Sunucudan gelen oturum açma yanıtı eksikti',

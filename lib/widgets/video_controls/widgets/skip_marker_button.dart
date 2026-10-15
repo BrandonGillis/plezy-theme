@@ -7,6 +7,7 @@ import '../../../i18n/strings.g.dart';
 import '../../../media/media_source_info.dart';
 import '../../../theme/mono_tokens.dart';
 import '../../app_icon.dart';
+import '../../../theme/liquid_glass.dart';
 
 class SkipMarkerButton extends StatelessWidget {
   final MediaMarker marker;
@@ -59,10 +60,27 @@ class SkipMarkerButton extends StatelessWidget {
         : baseButtonText;
     final buttonIcon = showNextEpisode ? Symbols.skip_next_rounded : Symbols.fast_forward_rounded;
 
+    // Liquid Glass: a frosted capsule with a white label, like the tvOS 26
+    // player's "Continue Watching".
+    final glass = isLiquidGlass(context);
+    final radius = glass ? MonoTokens.radiusFull : tokens(context).radiusSm;
+    final labelColor = glass ? Colors.white : Colors.black;
+    final label = Row(
+      mainAxisSize: .min,
+      children: [
+        Text(
+          buttonText,
+          style: TextStyle(color: labelColor, fontSize: 16, fontWeight: .w600),
+        ),
+        const SizedBox(width: 8),
+        AppIcon(buttonIcon, fill: 1, color: labelColor, size: 20),
+      ],
+    );
+
     return FocusableWrapper(
       focusNode: focusNode,
       onSelect: _activate,
-      borderRadius: tokens(context).radiusSm,
+      borderRadius: radius,
       useBackgroundFocus: true,
       autoScroll: false,
       onKeyEvent: (node, event) {
@@ -76,34 +94,27 @@ class SkipMarkerButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: _activate,
-          borderRadius: BorderRadius.circular(tokens(context).radiusSm),
+          borderRadius: BorderRadius.circular(radius),
           child: Stack(
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.9),
-                  borderRadius: BorderRadius.circular(tokens(context).radiusSm),
-                  boxShadow: [
-                    BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 2)),
-                  ],
+              if (glass)
+                LiquidGlass(padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12), child: label)
+              else
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.9),
+                    borderRadius: BorderRadius.circular(radius),
+                    boxShadow: [
+                      BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 2)),
+                    ],
+                  ),
+                  child: label,
                 ),
-                child: Row(
-                  mainAxisSize: .min,
-                  children: [
-                    Text(
-                      buttonText,
-                      style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: .w600),
-                    ),
-                    const SizedBox(width: 8),
-                    AppIcon(buttonIcon, fill: 1, color: Colors.black, size: 20),
-                  ],
-                ),
-              ),
               if (isAutoSkipActive && shouldShowAutoSkip)
                 Positioned.fill(
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(tokens(context).radiusSm),
+                    borderRadius: BorderRadius.circular(radius),
                     child: Row(
                       children: [
                         Expanded(
@@ -111,7 +122,7 @@ class SkipMarkerButton extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(tokens(context).radiusSm),
+                              borderRadius: BorderRadius.circular(radius),
                             ),
                           ),
                         ),

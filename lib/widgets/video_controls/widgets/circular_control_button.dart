@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plezy/widgets/app_icon.dart';
+import 'package:plezy/theme/liquid_glass.dart';
 
 /// A circular semi-transparent button used in the mobile video controls.
 ///
@@ -22,23 +23,28 @@ class CircularControlButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isEnabled = onPressed != null;
-    return Container(
-      decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.5), shape: BoxShape.circle),
-      child: Semantics(
-        label: semanticLabel,
-        button: true,
+    // Liquid Glass: a frosted disc that squishes on press; black disc otherwise.
+    return LiquidGlass(
+      fallbackColor: Colors.black.withValues(alpha: 0.5),
+      shadow: false,
+      child: LiquidPressScale(
         enabled: isEnabled,
-        onTap: onPressed,
-        excludeSemantics: true,
-        child: IconButton(
-          icon: AppIcon(
-            icon,
-            fill: 1,
-            color: isEnabled ? Colors.white : Colors.white.withValues(alpha: 0.3),
-            size: iconSize,
+        child: Semantics(
+          label: semanticLabel,
+          button: true,
+          enabled: isEnabled,
+          onTap: onPressed,
+          excludeSemantics: true,
+          child: IconButton(
+            icon: AppIcon(
+              icon,
+              fill: 1,
+              color: isEnabled ? Colors.white : Colors.white.withValues(alpha: 0.3),
+              size: iconSize,
+            ),
+            iconSize: iconSize,
+            onPressed: onPressed,
           ),
-          iconSize: iconSize,
-          onPressed: onPressed,
         ),
       ),
     );

@@ -248,6 +248,7 @@ class _Translations$settings$hu extends Translations$settings$en {
 	@override String get lightTheme => 'Világos';
 	@override String get darkTheme => 'Sötét';
 	@override String get oledTheme => 'OLED';
+	@override String get liquidGlassTheme => 'Liquid Glass';
 	@override String get libraryDensity => 'Könyvtársűrűség';
 	@override String get displayScale => 'Kijelző méretezése';
 	@override String get compact => 'Kompakt';
@@ -3166,6 +3167,7 @@ extension on TranslationsHu {
 			'settings.lightTheme' => 'Világos',
 			'settings.darkTheme' => 'Sötét',
 			'settings.oledTheme' => 'OLED',
+			'settings.liquidGlassTheme' => 'Liquid Glass',
 			'settings.libraryDensity' => 'Könyvtársűrűség',
 			'settings.displayScale' => 'Kijelző méretezése',
 			'settings.compact' => 'Kompakt',
@@ -3550,9 +3552,9 @@ extension on TranslationsHu {
 			'fileInfo.scalingMatrix' => 'Egyéni méretezési mátrix',
 			'fileInfo.streamIdentifier' => 'Adatfolyam-azonosító',
 			'fileInfo.streamIndex' => 'Adatfolyam-index',
-			'fileInfo.streamId' => 'Adatfolyam azonosítója',
 			_ => null,
 		} ?? switch (path) {
+			'fileInfo.streamId' => 'Adatfolyam azonosítója',
 			'fileInfo.language' => 'Nyelv',
 			'fileInfo.languageCode' => 'Nyelvkód',
 			'fileInfo.streamTitle' => 'Sáv címe',
@@ -4064,9 +4066,9 @@ extension on TranslationsHu {
 			'libraries.scanLibrary' => 'Könyvtár beolvasása',
 			'libraries.analyze' => 'Elemzés',
 			'libraries.analyzeLibrary' => 'Könyvtár elemzése',
-			'libraries.refreshMetadata' => 'Metaadatok frissítése',
 			_ => null,
 		} ?? switch (path) {
+			'libraries.refreshMetadata' => 'Metaadatok frissítése',
 			'libraries.emptyTrash' => 'Lomtár ürítése',
 			'libraries.emptyingTrash' => ({required Object title}) => 'Lomtár ürítése a következőhöz: "${title}"...',
 			'libraries.trashEmptied' => ({required Object title}) => 'Lomtár kiürítve a következőhöz: "${title}"',
@@ -4578,9 +4580,9 @@ extension on TranslationsHu {
 			'watchTogether.waitingForParticipants' => 'Várakozás, amíg a többieknél betöltődik a tartalom...',
 			'watchTogether.waitingForName' => ({required Object name}) => 'Várakozás: ${name}...',
 			'watchTogether.recentRooms' => 'Legutóbbi szobák',
-			'watchTogether.renameRoom' => 'Szoba átnevezése',
 			_ => null,
 		} ?? switch (path) {
+			'watchTogether.renameRoom' => 'Szoba átnevezése',
 			'watchTogether.removeRoom' => 'Eltávolítás',
 			'watchTogether.guestSwitchUnavailable' => 'Nem sikerült a váltás — a szerver nem érhető el szinkronizáláshoz',
 			'watchTogether.guestSwitchFailed' => 'Nem sikerült a váltás — a tartalom nem található ezen a szerveren',
@@ -5092,9 +5094,9 @@ extension on TranslationsHu {
 			'addServer.connectToMediaBrowserCardSubtitle' => 'Adja meg a szerver URL-jét, felhasználónevét és jelszavát.',
 			'addServer.connectToMediaBrowserCardSubtitleScoped' => ({required Object product, required Object name}) => 'Jelentkezzen be a(z) ${product} szerverére. A(z) ${name} szolgáltatáshoz kötődik.',
 			'addServer.borrowFromAnotherProfile' => 'Kapcsolat használata másik profilból',
-			'addServer.borrowFromAnotherProfileSubtitle' => 'Egy másik profil kapcsolatának használata. A PIN-kóddal védett profilokhoz PIN-kód szükséges.',
 			_ => null,
 		} ?? switch (path) {
+			'addServer.borrowFromAnotherProfileSubtitle' => 'Egy másik profil kapcsolatának használata. A PIN-kóddal védett profilokhoz PIN-kód szükséges.',
 			'addServer.invalidCredentials' => 'Érvénytelen felhasználónév vagy jelszó',
 			'addServer.authResponseNotJson' => 'A hitelesítési válasz nem érvényes JSON',
 			'addServer.authResponseIncomplete' => 'A szerver bejelentkezési válasza hiányos volt',

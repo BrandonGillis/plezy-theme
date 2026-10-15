@@ -27,6 +27,7 @@ import '../../../widgets/tv_browse_rail.dart';
 import '../../../widgets/tv_spotlight_scaffold.dart';
 import '../../main_screen.dart';
 import 'base_library_tab.dart';
+import '../../../widgets/system_bottom_inset.dart';
 
 /// Recommended tab for library screen
 /// Shows library-specific hubs and recommendations, including dedicated Continue Watching
@@ -319,6 +320,8 @@ class _LibraryRecommendedTabState extends BaseLibraryTabState<MediaHub, LibraryR
               },
             ),
           ),
+          // Clears the Liquid Glass tab bar, which floats over the content.
+          const SliverSystemBottomInset(),
         ],
       ),
     );

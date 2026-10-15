@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plezy/theme/mono_theme.dart';
+import 'package:plezy/theme/mono_tokens.dart';
 
 /// `monoTheme` builds a full `ColorScheme`, an applied+copyWith'd Typography
 /// `TextTheme`, ~14 sub-theme objects, and then clones the whole `ThemeData`
@@ -63,6 +64,48 @@ void main() {
         expect(disabledBackground!.a, lessThan(enabledBackground!.a));
       }
     }
+  });
+
+  group('liquid glass', () {
+    test('is a memoized dark palette distinct from dark and OLED', () {
+      final glass = monoTheme(dark: true, glass: true);
+      expect(identical(glass, monoTheme(dark: true, glass: true)), isTrue);
+      expect(identical(glass, monoTheme(dark: true)), isFalse);
+      expect(identical(glass, monoTheme(dark: true, oled: true)), isFalse);
+      expect(glass.brightness, Brightness.dark);
+    });
+
+    test('implies dark and wins over oled', () {
+      final glass = monoTheme(dark: true, glass: true);
+      expect(identical(monoTheme(dark: false, glass: true), glass), isTrue);
+      expect(identical(monoTheme(dark: true, oled: true, glass: true), glass), isTrue);
+    });
+
+    test('only the glass palette enables glass tokens', () {
+      final glass = monoTheme(dark: true, glass: true).extension<MonoTokens>()!;
+      expect(glass.glass, isTrue);
+      expect(glass.glassBlur, greaterThan(0));
+      // A tint that lets the blurred backdrop through.
+      expect(glass.glassFill.a, inExclusiveRange(0, 1));
+
+      for (final theme in [monoTheme(dark: false), monoTheme(dark: true), monoTheme(dark: true, oled: true)]) {
+        expect(theme.extension<MonoTokens>()!.glass, isFalse);
+      }
+    });
+
+    test('navigation chrome is transparent so its glass capsule shows', () {
+      final glass = monoTheme(dark: true, glass: true);
+      expect(glass.navigationBarTheme.backgroundColor, Colors.transparent);
+      expect(glass.navigationRailTheme.backgroundColor, Colors.transparent);
+    });
+
+    test('keeps the disabled button treatment', () {
+      final style = monoTheme(dark: true, glass: true).filledButtonTheme.style!;
+      expect(
+        style.backgroundColor!.resolve(const {WidgetState.disabled})!.a,
+        lessThan(style.backgroundColor!.resolve(const {})!.a),
+      );
+    });
   });
 
   group('target platform is part of the cache key', () {

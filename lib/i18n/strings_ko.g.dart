@@ -248,6 +248,7 @@ class _Translations$settings$ko extends Translations$settings$en {
 	@override String get lightTheme => '라이트';
 	@override String get darkTheme => '다크';
 	@override String get oledTheme => 'OLED';
+	@override String get liquidGlassTheme => 'Liquid Glass';
 	@override String get libraryDensity => '라이브러리 표시 밀도';
 	@override String get displayScale => '표시 배율';
 	@override String get compact => '조밀하게';
@@ -3155,6 +3156,7 @@ extension on TranslationsKo {
 			'settings.lightTheme' => '라이트',
 			'settings.darkTheme' => '다크',
 			'settings.oledTheme' => 'OLED',
+			'settings.liquidGlassTheme' => 'Liquid Glass',
 			'settings.libraryDensity' => '라이브러리 표시 밀도',
 			'settings.displayScale' => '표시 배율',
 			'settings.compact' => '조밀하게',
@@ -3539,9 +3541,9 @@ extension on TranslationsKo {
 			'fileInfo.scalingMatrix' => '사용자 지정 스케일링 매트릭스',
 			'fileInfo.streamIdentifier' => '스트림 식별자',
 			'fileInfo.streamIndex' => '스트림 인덱스',
-			'fileInfo.streamId' => '스트림 ID',
 			_ => null,
 		} ?? switch (path) {
+			'fileInfo.streamId' => '스트림 ID',
 			'fileInfo.language' => '언어',
 			'fileInfo.languageCode' => '언어 코드',
 			'fileInfo.streamTitle' => '트랙 제목',
@@ -4053,9 +4055,9 @@ extension on TranslationsKo {
 			'libraries.scanLibrary' => '미디어 라이브러리 스캔',
 			'libraries.analyze' => '분석',
 			'libraries.analyzeLibrary' => '미디어 라이브러리 분석',
-			'libraries.refreshMetadata' => '메타데이터 새로 고침',
 			_ => null,
 		} ?? switch (path) {
+			'libraries.refreshMetadata' => '메타데이터 새로 고침',
 			'libraries.emptyTrash' => '휴지통 비우기',
 			'libraries.emptyingTrash' => ({required Object title}) => '「${title}」의 휴지통을 비우고 있습니다...',
 			'libraries.trashEmptied' => ({required Object title}) => '「${title}」의 휴지통을 비웠습니다',
@@ -4567,9 +4569,9 @@ extension on TranslationsKo {
 			'watchTogether.waitingForParticipants' => '다른 참가자의 로딩을 기다리는 중...',
 			'watchTogether.waitingForName' => ({required Object name}) => '${name}님을 기다리는 중...',
 			'watchTogether.recentRooms' => '최근 참여한 방',
-			'watchTogether.renameRoom' => '방 이름 변경',
 			_ => null,
 		} ?? switch (path) {
+			'watchTogether.renameRoom' => '방 이름 변경',
 			'watchTogether.removeRoom' => '제거',
 			'watchTogether.guestSwitchUnavailable' => '전환할 수 없음 — 동기화 서버를 사용할 수 없습니다',
 			'watchTogether.guestSwitchFailed' => '전환할 수 없음 — 이 서버에서 콘텐츠를 찾을 수 없습니다',
@@ -5081,9 +5083,9 @@ extension on TranslationsKo {
 			'addServer.connectToMediaBrowserCardSubtitle' => '서버 URL, 사용자 이름, 비밀번호를 입력하세요.',
 			'addServer.connectToMediaBrowserCardSubtitleScoped' => ({required Object product, required Object name}) => '${product} 서버에 로그인하세요. ${name}에 연결됩니다.',
 			'addServer.borrowFromAnotherProfile' => '다른 프로필에서 빌리기',
-			'addServer.borrowFromAnotherProfileSubtitle' => '다른 프로필의 연결을 재사용합니다. PIN으로 보호된 프로필에는 PIN이 필요합니다.',
 			_ => null,
 		} ?? switch (path) {
+			'addServer.borrowFromAnotherProfileSubtitle' => '다른 프로필의 연결을 재사용합니다. PIN으로 보호된 프로필에는 PIN이 필요합니다.',
 			'addServer.invalidCredentials' => '사용자 이름 또는 비밀번호가 올바르지 않습니다',
 			'addServer.authResponseNotJson' => '인증 응답이 유효한 JSON이 아닙니다',
 			'addServer.authResponseIncomplete' => '서버의 로그인 응답이 불완전합니다',

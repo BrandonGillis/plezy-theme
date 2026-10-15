@@ -1,0 +1,76 @@
+name: Preview APK
+
+# Installable test build for feature branches. Unlike build.yml it needs no
+# signing secrets: it signs with a throwaway key, so the APK installs on a
+# device but cannot update a store build (or a preview from another run).
+on:
+  push:
+    branches: ["claude/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: preview-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FLUTTER_VERSION: "3.47.1"
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup Java
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5
+        with:
+          distribution: "temurin"
+          java-version: "21"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          channel: "stable"
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Cache Gradle
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: preview-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+      - name: Install dependencies
+        run: flutter pub get --enforce-lockfile --no-example
+
+      # Release has no signing config without android/key.properties and would
+      # come out unsigned, which Android refuses to install. Sign with a
+      # throwaway key generated per run (not secret, never a store key).
+      - name: Configure throwaway signing key
+        run: |
+          keytool -genkeypair -v -keystore android/app/preview.jks -storetype JKS \
+            -alias preview -keyalg RSA -keysize 2048 -validity 3650 \
+            -storepass preview -keypass preview -dname "CN=Plezy Preview"
+          printf 'storePassword=preview\nkeyPassword=preview\nkeyAlias=preview\nstoreFile=preview.jks\n' > android/key.properties
+
+      - name: Build APK
+        run: flutter build apk --release --split-per-abi --target-platform android-arm64 --dart-define=GIT_COMMIT=${{ github.sha }}
+
+      - name: Verify APK signature
+        run: |
+          apksigner="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n1)/apksigner"
+          "$apksigner" verify --verbose build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: plezy-preview-arm64-v8a
+          path: build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+          retention-days: 14

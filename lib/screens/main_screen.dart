@@ -21,6 +21,7 @@ import '../services/tvos_system_navigation_service.dart';
 import '../services/update_service.dart';
 import '../utils/app_logger.dart';
 import '../widgets/auth_error_banner.dart';
+import '../theme/liquid_glass.dart';
 import '../widgets/app_icon.dart';
 import '../utils/platform_detector.dart';
 import '../utils/snackbar_helper.dart';
@@ -2280,6 +2281,10 @@ class _MainScreenState extends State<MainScreen>
 
   Widget _buildPortraitShell(BuildContext context) {
     return Scaffold(
+      // Liquid Glass: content scrolls beneath the floating capsule. The body
+      // then reports the bar's height as bottom padding, which tab scroll
+      // views reserve via SliverSystemBottomInset.
+      extendBody: isLiquidGlass(context),
       body: _buildTickerAwareStack(),
       bottomNavigationBar: Column(
         key: _navBarKey,
@@ -2325,9 +2330,20 @@ class _MainScreenState extends State<MainScreen>
               // this builder reruns on label toggles AND on every
               // MainScreen rebuild (offline bar appearing/disappearing).
               _scheduleNavBarMeasure(rail: false);
-              return NavigationBarTheme(
+              final bar = NavigationBarTheme(
                 data: NavigationBarTheme.of(context).copyWith(height: hideLabels ? 56 : null),
                 child: _buildBottomNavigationBar(context, hideLabels: hideLabels),
+              );
+              if (!isLiquidGlass(context)) return bar;
+              // Liquid Glass: a floating capsule inset from the screen edges.
+              // The capsule owns the bottom safe area, so the bar inside must
+              // not pad for it again.
+              return SafeArea(
+                top: false,
+                minimum: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                child: LiquidGlass(
+                  child: MediaQuery.removePadding(context: context, removeBottom: true, child: bar),
+                ),
               );
             },
           ),

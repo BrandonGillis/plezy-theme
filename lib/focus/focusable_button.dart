@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../theme/liquid_glass.dart';
 import 'focus_theme.dart';
 import 'focusable_wrapper.dart';
 import 'input_mode_tracker.dart';
@@ -52,12 +53,15 @@ class _FocusableButtonState extends State<FocusableButton> {
     final duration = FocusTheme.getAnimationDuration(context);
     final enabled = widget.onPressed != null;
     final opacity = isKeyboard && !_isFocused ? 0.6 : 1.0;
+    // Liquid Glass buttons lift on focus and squish on press, like tvOS.
+    final glass = isLiquidGlass(context);
 
     return FocusableWrapper(
       autofocus: widget.autofocus && enabled,
       focusNode: widget.focusNode,
       canRequestFocus: enabled,
-      disableScale: true,
+      disableScale: !glass,
+      focusScale: 1.08,
       borderRadius: 100,
       useBackgroundFocus: widget.useBackgroundFocus,
       descendantsAreFocusable: false,
@@ -69,7 +73,11 @@ class _FocusableButtonState extends State<FocusableButton> {
       onNavigateLeft: widget.onNavigateLeft,
       onNavigateRight: widget.onNavigateRight,
       onBack: widget.onBack,
-      child: AnimatedOpacity(opacity: showFocus ? 1.0 : opacity, duration: duration, child: widget.child),
+      child: AnimatedOpacity(
+        opacity: showFocus ? 1.0 : opacity,
+        duration: duration,
+        child: LiquidPressScale(enabled: enabled, child: widget.child),
+      ),
     );
   }
 }

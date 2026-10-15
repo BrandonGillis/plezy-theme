@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/device_performance.dart';
+import '../theme/liquid_glass.dart';
 import '../theme/mono_tokens.dart';
 import '../utils/platform_detector.dart';
 
@@ -18,7 +19,11 @@ class FocusTheme {
   static const double focusGlowOuterBlurRadius = 34;
   static const double focusGlowSpreadRadius = 1.5;
 
+  static bool _isGlass(BuildContext context) => Theme.of(context).extension<MonoTokens>()?.glass ?? false;
+
   static Color getFocusBorderColor(BuildContext context) {
+    // Liquid Glass: a softer, light-catching ring rather than a solid one.
+    if (_isGlass(context)) return Colors.white.withValues(alpha: 0.75);
     return Theme.of(context).colorScheme.primary;
   }
 
@@ -26,8 +31,19 @@ class FocusTheme {
     // Reduced tier: snap focus transitions (scale/border/glow) instead of
     // animating — each animation frame re-rasterizes the focused card.
     if (DevicePerformance.isReduced) return Duration.zero;
-    return Theme.of(context).extension<MonoTokens>()?.fast ?? const Duration(milliseconds: 150);
+    final t = Theme.of(context).extension<MonoTokens>();
+    // Liquid Glass lifts focus over a longer, springier move (tvOS 26).
+    if (t != null && t.glass) return t.normal;
+    return t?.fast ?? const Duration(milliseconds: 150);
   }
+
+  /// Focus scale for [scale] in the active theme. Liquid Glass lifts focused
+  /// cards further, like tvOS; large scales (player controls) are left as is.
+  static double scaleFor(BuildContext context, double scale) =>
+      _isGlass(context) && scale > 1 && scale < 1.1 ? scale + 0.05 : scale;
+
+  /// Curve of focus scale changes: a slight springy overshoot in Liquid Glass.
+  static Curve focusCurve(BuildContext context) => _isGlass(context) ? liquidSpringCurve : Curves.easeOutCubic;
 
   /// How long a TV row (or the hub list) glides after one D-pad focus step.
   ///

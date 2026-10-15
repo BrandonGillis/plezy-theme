@@ -6,6 +6,7 @@ import 'package:plezy/providers/theme_provider.dart';
 import 'package:plezy/screens/settings/settings_utils.dart';
 import 'package:plezy/services/base_shared_preferences_service.dart';
 import 'package:plezy/services/settings_service.dart' as settings;
+import 'package:plezy/theme/mono_tokens.dart';
 
 import '../test_helpers/prefs.dart';
 
@@ -66,6 +67,9 @@ void main() {
       await p.setThemeMode(settings.ThemeMode.oled);
       expect(p.materialThemeMode, material.ThemeMode.dark);
 
+      await p.setThemeMode(settings.ThemeMode.liquidGlass);
+      expect(p.materialThemeMode, material.ThemeMode.dark);
+
       await p.setThemeMode(settings.ThemeMode.system);
       expect(p.materialThemeMode, material.ThemeMode.system);
 
@@ -83,6 +87,9 @@ void main() {
       expect(p.isDarkMode, isTrue);
 
       await p.setThemeMode(settings.ThemeMode.oled);
+      expect(p.isDarkMode, isTrue);
+
+      await p.setThemeMode(settings.ThemeMode.liquidGlass);
       expect(p.isDarkMode, isTrue);
 
       p.dispose();
@@ -104,6 +111,20 @@ void main() {
       p.dispose();
     });
 
+    test('liquidGlass resolves to the glass palette', () async {
+      final p = ThemeProvider();
+      await Future.delayed(Duration.zero);
+
+      await p.setThemeMode(settings.ThemeMode.liquidGlass);
+      expect(p.darkTheme.extension<MonoTokens>()!.glass, isTrue);
+      expect(identical(ThemeProvider.darkThemeFor(settings.ThemeMode.liquidGlass), p.darkTheme), isTrue);
+
+      await p.setThemeMode(settings.ThemeMode.dark);
+      expect(p.darkTheme.extension<MonoTokens>()!.glass, isFalse);
+
+      p.dispose();
+    });
+
     test('themeModeLabel and themeModeIcon match the active mode', () async {
       final p = ThemeProvider();
       await Future.delayed(Duration.zero);
@@ -120,6 +141,10 @@ void main() {
       expect(themeModeLabel(p.themeMode), t.settings.oledTheme);
       expect(p.themeModeIcon, Symbols.contrast_rounded);
 
+      await p.setThemeMode(settings.ThemeMode.liquidGlass);
+      expect(themeModeLabel(p.themeMode), t.settings.liquidGlassTheme);
+      expect(p.themeModeIcon, Symbols.blur_on_rounded);
+
       await p.setThemeMode(settings.ThemeMode.system);
       expect(themeModeLabel(p.themeMode), t.settings.systemTheme);
       expect(p.themeModeIcon, Symbols.brightness_auto_rounded);
@@ -134,6 +159,7 @@ void main() {
         expect(themeModeLabel(settings.ThemeMode.light), 'Hell');
         expect(themeModeLabel(settings.ThemeMode.dark), 'Dunkel');
         expect(themeModeLabel(settings.ThemeMode.oled), 'OLED');
+        expect(themeModeLabel(settings.ThemeMode.liquidGlass), 'Liquid Glass');
       } finally {
         LocaleSettings.setLocaleSync(AppLocale.en);
       }

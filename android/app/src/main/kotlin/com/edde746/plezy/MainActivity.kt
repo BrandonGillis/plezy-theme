@@ -962,7 +962,7 @@ class MainActivity : FlutterActivity() {
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val themeId = when (mode) {
               "dark" -> R.style.SplashTheme_Dark
-              "oled" -> R.style.SplashTheme_Oled
+              "oled", "liquid_glass" -> R.style.SplashTheme_Oled
               "light" -> R.style.SplashTheme_Light
               "system" -> android.content.res.Resources.ID_NULL
               else -> android.content.res.Resources.ID_NULL

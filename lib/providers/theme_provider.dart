@@ -59,19 +59,20 @@ class ThemeProvider extends ChangeNotifier with DisposableChangeNotifierMixin, W
 
   settings.ThemeMode get themeMode => _themeMode;
 
-  /// Dark palette for [mode], honouring the OLED variant.
+  /// Dark palette for [mode], honouring the OLED and Liquid Glass variants.
   ///
   /// Static so the pre-provider startup frame can resolve the same theme this
   /// provider will settle on, instead of guessing from platform brightness
   /// and flashing when the two disagree (#1833).
   static ThemeData darkThemeFor(settings.ThemeMode mode) =>
-      monoTheme(dark: true, oled: mode == settings.ThemeMode.oled);
+      monoTheme(dark: true, oled: mode == settings.ThemeMode.oled, glass: mode == settings.ThemeMode.liquidGlass);
 
   /// Material equivalent of the app's own [settings.ThemeMode].
   static ThemeMode materialThemeModeFor(settings.ThemeMode mode) => switch (mode) {
     settings.ThemeMode.light => ThemeMode.light,
     settings.ThemeMode.dark => ThemeMode.dark,
     settings.ThemeMode.oled => ThemeMode.dark,
+    settings.ThemeMode.liquidGlass => ThemeMode.dark,
     settings.ThemeMode.system => ThemeMode.system,
   };
 
@@ -83,7 +84,7 @@ class ThemeProvider extends ChangeNotifier with DisposableChangeNotifierMixin, W
   /// Whether [mode] resolves to a dark theme when the platform reports [platformBrightness].
   static bool isDarkFor(settings.ThemeMode mode, Brightness platformBrightness) => switch (mode) {
     settings.ThemeMode.light => false,
-    settings.ThemeMode.dark || settings.ThemeMode.oled => true,
+    settings.ThemeMode.dark || settings.ThemeMode.oled || settings.ThemeMode.liquidGlass => true,
     settings.ThemeMode.system => platformBrightness == Brightness.dark,
   };
 
@@ -142,6 +143,7 @@ class ThemeProvider extends ChangeNotifier with DisposableChangeNotifierMixin, W
     final name = switch (mode) {
       settings.ThemeMode.dark => 'dark',
       settings.ThemeMode.oled => 'oled',
+      settings.ThemeMode.liquidGlass => 'liquid_glass',
       settings.ThemeMode.light => 'light',
       settings.ThemeMode.system => 'system',
     };
@@ -156,6 +158,8 @@ class ThemeProvider extends ChangeNotifier with DisposableChangeNotifierMixin, W
         return Symbols.dark_mode_rounded;
       case settings.ThemeMode.oled:
         return Symbols.contrast_rounded;
+      case settings.ThemeMode.liquidGlass:
+        return Symbols.blur_on_rounded;
       case settings.ThemeMode.system:
         return Symbols.brightness_auto_rounded;
     }

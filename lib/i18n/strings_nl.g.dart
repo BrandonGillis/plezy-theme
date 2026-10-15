@@ -248,6 +248,7 @@ class _Translations$settings$nl extends Translations$settings$en {
 	@override String get lightTheme => 'Licht';
 	@override String get darkTheme => 'Donker';
 	@override String get oledTheme => 'OLED';
+	@override String get liquidGlassTheme => 'Liquid Glass';
 	@override String get libraryDensity => 'Bibliotheekdichtheid';
 	@override String get displayScale => 'Weergaveschaal';
 	@override String get compact => 'Compact';
@@ -3166,6 +3167,7 @@ extension on TranslationsNl {
 			'settings.lightTheme' => 'Licht',
 			'settings.darkTheme' => 'Donker',
 			'settings.oledTheme' => 'OLED',
+			'settings.liquidGlassTheme' => 'Liquid Glass',
 			'settings.libraryDensity' => 'Bibliotheekdichtheid',
 			'settings.displayScale' => 'Weergaveschaal',
 			'settings.compact' => 'Compact',
@@ -3550,9 +3552,9 @@ extension on TranslationsNl {
 			'fileInfo.scalingMatrix' => 'Aangepaste schalingsmatrix',
 			'fileInfo.streamIdentifier' => 'Stream-id',
 			'fileInfo.streamIndex' => 'Streamindex',
-			'fileInfo.streamId' => 'Stream-ID',
 			_ => null,
 		} ?? switch (path) {
+			'fileInfo.streamId' => 'Stream-ID',
 			'fileInfo.language' => 'Taal',
 			'fileInfo.languageCode' => 'Taalcode',
 			'fileInfo.streamTitle' => 'Tracktitel',
@@ -4064,9 +4066,9 @@ extension on TranslationsNl {
 			'libraries.scanLibrary' => 'Bibliotheek scannen',
 			'libraries.analyze' => 'Analyseren',
 			'libraries.analyzeLibrary' => 'Bibliotheek analyseren',
-			'libraries.refreshMetadata' => 'Metadata vernieuwen',
 			_ => null,
 		} ?? switch (path) {
+			'libraries.refreshMetadata' => 'Metadata vernieuwen',
 			'libraries.emptyTrash' => 'Prullenbak legen',
 			'libraries.emptyingTrash' => ({required Object title}) => 'Prullenbak legen voor "${title}"...',
 			'libraries.trashEmptied' => ({required Object title}) => 'Prullenbak geleegd voor "${title}"',
@@ -4578,9 +4580,9 @@ extension on TranslationsNl {
 			'watchTogether.waitingForParticipants' => 'Wachten tot anderen klaar zijn met laden...',
 			'watchTogether.waitingForName' => ({required Object name}) => 'Wachten op ${name}...',
 			'watchTogether.recentRooms' => 'Recente kamers',
-			'watchTogether.renameRoom' => 'Kamer hernoemen',
 			_ => null,
 		} ?? switch (path) {
+			'watchTogether.renameRoom' => 'Kamer hernoemen',
 			'watchTogether.removeRoom' => 'Verwijderen',
 			'watchTogether.guestSwitchUnavailable' => 'Kon niet schakelen — server niet beschikbaar voor synchronisatie',
 			'watchTogether.guestSwitchFailed' => 'Kon niet schakelen — inhoud niet gevonden op deze server',
@@ -5092,9 +5094,9 @@ extension on TranslationsNl {
 			'addServer.connectToMediaBrowserCardSubtitle' => 'Voer je server-URL, gebruikersnaam en wachtwoord in.',
 			'addServer.connectToMediaBrowserCardSubtitleScoped' => ({required Object product, required Object name}) => 'Meld je aan bij je ${product}-server. Wordt gekoppeld aan ${name}.',
 			'addServer.borrowFromAnotherProfile' => 'Van een ander profiel lenen',
-			'addServer.borrowFromAnotherProfileSubtitle' => 'Hergebruik de verbinding van een ander profiel. Voor profielen met pincodebeveiliging is een pincode vereist.',
 			_ => null,
 		} ?? switch (path) {
+			'addServer.borrowFromAnotherProfileSubtitle' => 'Hergebruik de verbinding van een ander profiel. Voor profielen met pincodebeveiliging is een pincode vereist.',
 			'addServer.invalidCredentials' => 'Ongeldige gebruikersnaam of ongeldig wachtwoord',
 			'addServer.authResponseNotJson' => 'Het authenticatieantwoord was geen geldige JSON',
 			'addServer.authResponseIncomplete' => 'Het aanmeldingsantwoord van de server was onvolledig',
