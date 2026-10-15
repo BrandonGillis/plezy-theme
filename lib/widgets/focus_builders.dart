@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../focus/focus_chrome.dart';
 import '../focus/focus_theme.dart';
 import '../focus/input_mode_tracker.dart';
+import '../theme/liquid_glass.dart';
 import 'clickable_cursor.dart';
 
 /// Shared builders for focusable widgets to reduce code duplication.
@@ -101,16 +102,20 @@ class FocusBuilders {
     if (!isKeyboardMode) {
       return (onTap != null || onLongPress != null)
           ? ClickableCursor(
-              child: GestureDetector(onTap: onTap, onLongPress: onLongPress, child: child),
+              child: GestureDetector(
+                onTap: onTap,
+                onLongPress: onLongPress,
+                child: LiquidPressScale(child: child),
+              ),
             )
           : child;
     }
 
     final duration = FocusTheme.getAnimationDuration(context);
     final focusedWidget = AnimatedScale(
-      scale: isFocused ? focusScale : 1.0,
+      scale: isFocused ? FocusTheme.scaleFor(context, focusScale) : 1.0,
       duration: duration,
-      curve: Curves.easeOutCubic,
+      curve: FocusTheme.focusCurve(context),
       child: buildFocusChrome(
         context,
         showFocus: isFocused,

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'gapped_track_shape.dart';
+import 'liquid_glass.dart';
 import 'mono_tokens.dart';
 
 final Map<({bool dark, bool oled, bool glass, TargetPlatform platform}), ThemeData> _monoThemeCache = {};
@@ -278,6 +279,10 @@ ThemeData _applyLiquidGlass(
     textTheme: textTheme,
     focusColor: c.text.withValues(alpha: 0.16),
     hoverColor: c.text.withValues(alpha: 0.07),
+    // A soft glow blooms from the touch point instead of the mono theme's
+    // no-splash.
+    splashFactory: LiquidGlowSplash.splashFactory,
+    splashColor: c.text.withValues(alpha: 0.22),
     appBarTheme: base.appBarTheme.copyWith(
       titleTextStyle: base.appBarTheme.titleTextStyle?.copyWith(fontSize: 20, letterSpacing: -0.4),
     ),

@@ -59,6 +59,7 @@ import '../utils/layout_constants.dart';
 import '../utils/platform_detector.dart';
 import '../utils/tone_mapped_logo_image.dart';
 import '../theme/mono_tokens.dart';
+import '../theme/liquid_glass.dart';
 import 'libraries/content_state_builder.dart';
 import 'libraries/state_messages.dart';
 import 'main_screen.dart';
@@ -816,7 +817,7 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                 }
               }
 
-              return FocusableActionBar(
+              final actionBar = FocusableActionBar(
                 key: _actionBarKey,
                 onNavigateLeft: _navigateToSidebar,
                 onNavigateDown: _focusContentFromAppBar,
@@ -900,6 +901,10 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                   _buildUserMenuAction(context),
                 ],
               );
+              // Liquid Glass groups the toolbar actions in one floating glass
+              // capsule over the hero artwork, like iOS 26 toolbars.
+              if (!isLiquidGlass(context) || PlatformDetector.isTV()) return actionBar;
+              return LiquidGlass(padding: const EdgeInsets.symmetric(horizontal: 4), child: actionBar);
             },
           ),
         ],
@@ -1176,87 +1181,91 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                   bottom: 16,
                   left: -26,
                   right: 0,
-                  child: Row(
-                    mainAxisAlignment: .center,
-                    children: [
-                      // Pause/Play button
-                      ClickableCursor(
-                        child: GestureDetector(
-                          onTap: () {
-                            if (_isAutoScrollPaused) {
-                              _resumeAutoScroll();
-                            } else {
-                              _pauseAutoScroll();
-                            }
-                          },
-                          child: AppIcon(
-                            _isAutoScrollPaused ? Symbols.play_arrow_rounded : Symbols.pause_rounded,
-                            fill: 1,
-                            color: Theme.of(context).colorScheme.onSurface,
-                            size: 18,
-                            semanticLabel: _isAutoScrollPaused
-                                ? t.accessibility.autoScrollPlay
-                                : t.accessibility.autoScrollPause,
+                  child: Center(
+                    child: _heroIndicatorPill(
+                      Row(
+                        mainAxisSize: .min,
+                        children: [
+                          // Pause/Play button
+                          ClickableCursor(
+                            child: GestureDetector(
+                              onTap: () {
+                                if (_isAutoScrollPaused) {
+                                  _resumeAutoScroll();
+                                } else {
+                                  _pauseAutoScroll();
+                                }
+                              },
+                              child: AppIcon(
+                                _isAutoScrollPaused ? Symbols.play_arrow_rounded : Symbols.pause_rounded,
+                                fill: 1,
+                                color: Theme.of(context).colorScheme.onSurface,
+                                size: 18,
+                                semanticLabel: _isAutoScrollPaused
+                                    ? t.accessibility.autoScrollPlay
+                                    : t.accessibility.autoScrollPause,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      ValueListenableBuilder<int>(
-                        valueListenable: _heroIndex,
-                        builder: (context, heroIndex, _) {
-                          final range = _getVisibleDotRange();
-                          return Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: List.generate(range.end - range.start + 1, (i) {
-                              final index = range.start + i;
-                              final isActive = heroIndex == index;
-                              final dotSize = _getDotSize(index, range.start, range.end);
+                          const SizedBox(width: 8),
+                          ValueListenableBuilder<int>(
+                            valueListenable: _heroIndex,
+                            builder: (context, heroIndex, _) {
+                              final range = _getVisibleDotRange();
+                              return Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: List.generate(range.end - range.start + 1, (i) {
+                                  final index = range.start + i;
+                                  final isActive = heroIndex == index;
+                                  final dotSize = _getDotSize(index, range.start, range.end);
 
-                              return isActive
-                                  ? ValueListenableBuilder<double>(
-                                      valueListenable: _indicatorProgress,
-                                      builder: (context, progress, child) {
-                                        final maxWidth = dotSize * 3;
-                                        final fillWidth = dotSize + ((maxWidth - dotSize) * progress);
-                                        final onSurface = Theme.of(context).colorScheme.onSurface;
-                                        return Container(
-                                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                                          width: maxWidth,
-                                          height: dotSize,
-                                          decoration: BoxDecoration(
-                                            color: onSurface.withValues(alpha: 0.4),
-                                            borderRadius: BorderRadius.circular(dotSize / 2),
-                                          ),
-                                          child: Align(
-                                            alignment: .centerLeft,
-                                            child: Container(
-                                              width: fillWidth,
+                                  return isActive
+                                      ? ValueListenableBuilder<double>(
+                                          valueListenable: _indicatorProgress,
+                                          builder: (context, progress, child) {
+                                            final maxWidth = dotSize * 3;
+                                            final fillWidth = dotSize + ((maxWidth - dotSize) * progress);
+                                            final onSurface = Theme.of(context).colorScheme.onSurface;
+                                            return Container(
+                                              margin: const EdgeInsets.symmetric(horizontal: 4),
+                                              width: maxWidth,
                                               height: dotSize,
                                               decoration: BoxDecoration(
-                                                color: onSurface,
+                                                color: onSurface.withValues(alpha: 0.4),
                                                 borderRadius: BorderRadius.circular(dotSize / 2),
                                               ),
-                                            ),
+                                              child: Align(
+                                                alignment: .centerLeft,
+                                                child: Container(
+                                                  width: fillWidth,
+                                                  height: dotSize,
+                                                  decoration: BoxDecoration(
+                                                    color: onSurface,
+                                                    borderRadius: BorderRadius.circular(dotSize / 2),
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        )
+                                      : AnimatedContainer(
+                                          duration: tokens(context).slow,
+                                          curve: Curves.easeInOut,
+                                          margin: const EdgeInsets.symmetric(horizontal: 4),
+                                          width: dotSize,
+                                          height: dotSize,
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
+                                            borderRadius: BorderRadius.circular(dotSize / 2),
                                           ),
                                         );
-                                      },
-                                    )
-                                  : AnimatedContainer(
-                                      duration: tokens(context).slow,
-                                      curve: Curves.easeInOut,
-                                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                                      width: dotSize,
-                                      height: dotSize,
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
-                                        borderRadius: BorderRadius.circular(dotSize / 2),
-                                      ),
-                                    );
-                            }),
-                          );
-                        },
+                                }),
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
             ],
@@ -1264,6 +1273,12 @@ class _DiscoverScreenState extends State<DiscoverScreen>
         ),
       ),
     );
+  }
+
+  /// Liquid Glass sets the hero's pause button and page dots in a glass pill.
+  Widget _heroIndicatorPill(Widget row) {
+    if (!isLiquidGlass(context)) return row;
+    return LiquidGlass(shadow: false, padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8), child: row);
   }
 
   /// Artwork and scrim behind the hero pages. One shared layer instead of

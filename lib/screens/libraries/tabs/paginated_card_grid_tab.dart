@@ -18,6 +18,7 @@ import '../../../widgets/skeleton_media_card.dart';
 import '../../../widgets/sliver_child_memo.dart';
 import '../../main_screen.dart';
 import 'base_library_tab.dart';
+import '../../../widgets/system_bottom_inset.dart';
 
 /// Library tabs whose whole body is one paginated grid of media cards.
 ///
@@ -118,6 +119,8 @@ abstract class PaginatedCardGridTabState<T extends Object, W extends BaseLibrary
             slivers: [
               SliverOverlapInjector(handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
               _buildItemsSliver(viewMode, density, fullCardLayout: fullCardLayout),
+              // Clears the Liquid Glass tab bar, which floats over the content.
+              const SliverSystemBottomInset(),
             ],
           ),
         );

@@ -7,6 +7,7 @@ import '../utils/text_input_diagnostics.dart';
 import 'dpad_navigator.dart';
 import 'dpad_select_long_press_controller.dart';
 import 'focus_chrome.dart';
+import '../theme/liquid_glass.dart';
 import 'focus_theme.dart';
 import 'input_mode_tracker.dart';
 import 'owned_focus_node_binding.dart';
@@ -259,11 +260,16 @@ class _FocusableWrapperState extends State<FocusableWrapper> with SingleTickerPr
     return controller;
   }
 
+  /// Theme-resolved focus scale and curve (see [FocusTheme.scaleFor]),
+  /// refreshed each keyboard-mode build.
+  double? _resolvedScale;
+  Curve _resolvedCurve = Curves.easeOutCubic;
+
   Animation<double> _createScaleAnimation(AnimationController controller) {
     return Tween<double>(
       begin: 1.0,
-      end: widget.focusScale,
-    ).animate(CurvedAnimation(parent: controller, curve: Curves.easeOutCubic));
+      end: _resolvedScale ?? widget.focusScale,
+    ).animate(CurvedAnimation(parent: controller, curve: _resolvedCurve));
   }
 
   @override
@@ -517,12 +523,20 @@ class _FocusableWrapperState extends State<FocusableWrapper> with SingleTickerPr
 
     Widget inner;
     if (!isKeyboardMode) {
-      inner = widget.child;
+      // Liquid Glass press feedback; a no-op in other themes.
+      inner = LiquidPressScale(enabled: widget.onSelect != null, child: widget.child);
     } else {
       final duration = FocusTheme.getAnimationDuration(context);
+      final scale = FocusTheme.scaleFor(context, widget.focusScale);
+      final curve = FocusTheme.focusCurve(context);
       final controller = _ensureAnimationController();
       if (controller.duration != duration) {
         controller.duration = duration;
+      }
+      if (_resolvedScale != scale || _resolvedCurve != curve) {
+        _resolvedScale = scale;
+        _resolvedCurve = curve;
+        _scaleAnimation = _createScaleAnimation(controller);
       }
 
       final shouldScale = showFocus && !widget.disableScale;

@@ -67,6 +67,7 @@ import '../../../utils/platform_detector.dart';
 import '../../../i18n/strings.g.dart';
 import '../../main_screen.dart';
 import 'base_library_tab.dart';
+import '../../../widgets/system_bottom_inset.dart';
 
 /// Browse tab for library screen
 /// Shows library items with grouping, filtering, and sorting
@@ -1769,6 +1770,8 @@ class _LibraryBrowseTabState extends BaseLibraryTabState<MediaItem, LibraryBrows
                 delegate: OptionsChipsBarDelegate(builder: (_) => _buildChipsBar()),
               ),
             ..._buildContentSlivers(),
+            // Clears the Liquid Glass tab bar, which floats over the content.
+            const SliverSystemBottomInset(),
           ],
         ),
       ),

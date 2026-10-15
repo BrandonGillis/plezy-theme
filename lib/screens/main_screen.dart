@@ -2281,6 +2281,10 @@ class _MainScreenState extends State<MainScreen>
 
   Widget _buildPortraitShell(BuildContext context) {
     return Scaffold(
+      // Liquid Glass: content scrolls beneath the floating capsule. The body
+      // then reports the bar's height as bottom padding, which tab scroll
+      // views reserve via SliverSystemBottomInset.
+      extendBody: isLiquidGlass(context),
       body: _buildTickerAwareStack(),
       bottomNavigationBar: Column(
         key: _navBarKey,

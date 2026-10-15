@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../theme/liquid_glass.dart';
 import 'focus_theme.dart';
 
 /// Exposes the focus state of an enclosing focus wrapper to a descendant
@@ -55,6 +56,16 @@ class CardFocusBorder extends StatelessWidget {
   Widget build(BuildContext context) {
     final showFocus = CardFocusScope.maybeOf(context);
     if (showFocus == null) return child;
+
+    // Liquid Glass: the focused card catches light instead of gaining a border.
+    if (isLiquidGlass(context)) {
+      return LiquidFocusRim(
+        focused: showFocus,
+        borderRadius: borderRadii ?? BorderRadius.circular(borderRadius),
+        duration: FocusTheme.getAnimationDuration(context),
+        child: child,
+      );
+    }
 
     return AnimatedContainer(
       duration: FocusTheme.getAnimationDuration(context),

@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 
+import 'package:flutter/gestures.dart' show kTouchSlop;
 import 'package:flutter/material.dart';
 
 import '../services/device_performance.dart';
@@ -200,4 +201,263 @@ class LiquidGlassModalBackdrop extends StatelessWidget {
       ],
     );
   }
+}
+
+/// Overshooting ease used by Liquid Glass motion: elements settle with a
+/// slight springy bounce instead of stopping dead.
+const Curve liquidSpringCurve = Cubic(0.34, 1.36, 0.64, 1);
+
+/// Touch feedback for Liquid Glass: the child squishes slightly while pressed
+/// and springs back on release. A drag past the touch slop releases it, so
+/// scrolling a row never leaves a card stuck pressed. A no-op elsewhere.
+///
+/// Uses a raw [Listener], so it never competes with the child's own gesture
+/// recognizers.
+class LiquidPressScale extends StatefulWidget {
+  const LiquidPressScale({super.key, this.pressedScale = 0.96, this.enabled = true, required this.child});
+
+  final double pressedScale;
+  final bool enabled;
+  final Widget child;
+
+  @override
+  State<LiquidPressScale> createState() => _LiquidPressScaleState();
+}
+
+class _LiquidPressScaleState extends State<LiquidPressScale> {
+  bool _pressed = false;
+  Offset? _downPosition;
+
+  void _setPressed(bool value) {
+    if (_pressed != value) setState(() => _pressed = value);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!widget.enabled || !isLiquidGlass(context) || DevicePerformance.isReduced) return widget.child;
+    return Listener(
+      behavior: HitTestBehavior.translucent,
+      onPointerDown: (event) {
+        _downPosition = event.position;
+        _setPressed(true);
+      },
+      onPointerMove: (event) {
+        final down = _downPosition;
+        if (_pressed && down != null && (event.position - down).distance > kTouchSlop) _setPressed(false);
+      },
+      onPointerUp: (_) => _setPressed(false),
+      onPointerCancel: (_) => _setPressed(false),
+      child: AnimatedScale(
+        scale: _pressed ? widget.pressedScale : 1,
+        duration: Duration(milliseconds: _pressed ? 110 : 420),
+        curve: _pressed ? Curves.easeOut : liquidSpringCurve,
+        child: widget.child,
+      ),
+    );
+  }
+}
+
+/// Liquid Glass focus treatment for cards (tvOS 26): instead of a solid
+/// border, the focused card catches light — a specular rim brightest on the
+/// top-leading edge and a soft sheen across its top. Fades with [focused].
+class LiquidFocusRim extends StatelessWidget {
+  const LiquidFocusRim({
+    super.key,
+    required this.focused,
+    required this.borderRadius,
+    required this.duration,
+    required this.child,
+  });
+
+  final bool focused;
+  final BorderRadiusGeometry borderRadius;
+  final Duration duration;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(end: focused ? 1 : 0),
+      duration: duration,
+      curve: Curves.easeOutCubic,
+      child: child,
+      builder: (context, t, child) => CustomPaint(
+        foregroundPainter: t == 0
+            ? null
+            : _FocusRimPainter(borderRadius: borderRadius, t: t, textDirection: Directionality.of(context)),
+        child: child,
+      ),
+    );
+  }
+}
+
+class _FocusRimPainter extends CustomPainter {
+  _FocusRimPainter({required this.borderRadius, required this.t, required this.textDirection});
+
+  final BorderRadiusGeometry borderRadius;
+  final double t;
+  final TextDirection textDirection;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (size.isEmpty) return;
+    final rect = Offset.zero & size;
+    final rrect = borderRadius.resolve(textDirection).toRRect(rect);
+    canvas.save();
+    canvas.clipRRect(rrect);
+    // Sheen: light pooling across the top of the slab.
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.white.withValues(alpha: 0.22 * t),
+            Colors.white.withValues(alpha: 0),
+          ],
+          stops: const [0, 0.45],
+        ).createShader(rect),
+    );
+    canvas.restore();
+    // Specular rim.
+    canvas.drawRRect(
+      rrect.deflate(1),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2
+        ..shader = LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Colors.white.withValues(alpha: 0.95 * t),
+            Colors.white.withValues(alpha: 0.35 * t),
+            Colors.white.withValues(alpha: 0.6 * t),
+          ],
+          stops: const [0, 0.55, 1],
+        ).createShader(rect),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_FocusRimPainter old) =>
+      old.t != t || old.borderRadius != borderRadius || old.textDirection != textDirection;
+}
+
+/// Liquid Glass touch highlight: a soft glow that blooms from the touch point
+/// and fades, in place of Material's ink ripple.
+class LiquidGlowSplash extends InteractiveInkFeature {
+  LiquidGlowSplash({
+    required MaterialInkController controller,
+    required super.referenceBox,
+    required Offset position,
+    required super.color,
+    required this._textDirection,
+    bool containedInkWell = false,
+    RectCallback? rectCallback,
+    BorderRadius? borderRadius,
+    this._customBorder,
+    double? radius,
+    super.onRemoved,
+  }) : _position = position,
+       _borderRadius = borderRadius ?? BorderRadius.zero,
+       _clipCallback = containedInkWell ? (rectCallback ?? () => Offset.zero & referenceBox.size) : rectCallback,
+       _targetRadius = radius ?? _maxRadius(referenceBox.size, position),
+       super(controller: controller) {
+    _bloom = AnimationController(duration: const Duration(milliseconds: 380), vsync: controller.vsync)
+      ..addListener(controller.markNeedsPaint)
+      ..forward();
+    _fade = AnimationController(duration: const Duration(milliseconds: 320), vsync: controller.vsync)
+      ..addListener(controller.markNeedsPaint)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) dispose();
+      });
+    controller.addInkFeature(this);
+  }
+
+  static const InteractiveInkFeatureFactory splashFactory = _LiquidGlowSplashFactory();
+
+  final Offset _position;
+  final TextDirection _textDirection;
+  final BorderRadius _borderRadius;
+  final ShapeBorder? _customBorder;
+  final RectCallback? _clipCallback;
+  final double _targetRadius;
+  late final AnimationController _bloom;
+  late final AnimationController _fade;
+
+  static double _maxRadius(Size size, Offset position) {
+    final corners = [Offset.zero, Offset(size.width, 0), Offset(0, size.height), Offset(size.width, size.height)];
+    return corners.map((c) => (c - position).distance).reduce((a, b) => a > b ? a : b);
+  }
+
+  @override
+  void confirm() => _fade.forward();
+
+  @override
+  void cancel() => _fade.forward();
+
+  @override
+  void dispose() {
+    _bloom.dispose();
+    _fade.dispose();
+    super.dispose();
+  }
+
+  @override
+  void paintFeature(Canvas canvas, Matrix4 transform) {
+    final bloom = Curves.easeOutCubic.transform(_bloom.value);
+    final radius = _targetRadius * (0.35 + 0.65 * bloom);
+    final opacity = (1 - _fade.value) * color.a;
+    if (opacity <= 0 || radius <= 0) return;
+    final paint = Paint()
+      ..shader = RadialGradient(
+        colors: [
+          color.withValues(alpha: opacity),
+          color.withValues(alpha: 0),
+        ],
+      ).createShader(Rect.fromCircle(center: _position, radius: radius));
+    paintInkCircle(
+      canvas: canvas,
+      transform: transform,
+      paint: paint,
+      center: _position,
+      textDirection: _textDirection,
+      radius: radius,
+      customBorder: _customBorder,
+      borderRadius: _borderRadius,
+      clipCallback: _clipCallback,
+    );
+  }
+}
+
+class _LiquidGlowSplashFactory extends InteractiveInkFeatureFactory {
+  const _LiquidGlowSplashFactory();
+
+  @override
+  InteractiveInkFeature create({
+    required MaterialInkController controller,
+    required RenderBox referenceBox,
+    required Offset position,
+    required Color color,
+    required TextDirection textDirection,
+    bool containedInkWell = false,
+    RectCallback? rectCallback,
+    BorderRadius? borderRadius,
+    ShapeBorder? customBorder,
+    double? radius,
+    VoidCallback? onRemoved,
+  }) => LiquidGlowSplash(
+    controller: controller,
+    referenceBox: referenceBox,
+    position: position,
+    color: color,
+    textDirection: textDirection,
+    containedInkWell: containedInkWell,
+    rectCallback: rectCallback,
+    borderRadius: borderRadius,
+    customBorder: customBorder,
+    radius: radius,
+    onRemoved: onRemoved,
+  );
 }
